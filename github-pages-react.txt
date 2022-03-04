@@ -1,0 +1,30 @@
+
+# setup
+Do {
+    Create a github repo
+    git clone https://github.com/Patrolin/my-app.git
+
+    # https://github.com/facebook/create-react-app
+    npx create-react-app my-app
+    cd my-app
+    npm start
+} or {
+    # https://github.com/facebook/create-react-app
+    npx create-react-app my-app
+    cd my-app
+    npm start
+
+    Create an empty github repo
+    git remote add origin https://github.com/Patrolin/my-app.git
+}
+
+Open package.json
+    Add "homepage": "https://Patrolin.github.io/my-app",
+    Under "scripts": {
+        Add "predeploy": "npm run build",
+        Add "deploy": "gh-pages -d build",
+    }
+npm i -D gh-pages
+
+# deploy
+npm run deploy
