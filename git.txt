@@ -1,0 +1,25 @@
+
+# setup git
+On Windows {
+    https://git-scm.com/downloads
+}
+
+git config --global user.name "Patrolin"
+git config --global user.email “Patrolin@example.com”
+
+# setup SSH key
+On Windows {
+    Right click > Open git bash
+} or {
+    Open a terminal
+}
+    ssh-keygen
+        # private key is saved in ~/.ssh/id_rsa
+        # public key is saved in ~/.ssh/id_rsa.pub
+        Enter empty password # most programs do not support password-protected SSH keys
+
+Open https://github.com/settings/keys
+    New SSH key
+    Copy ~/.ssh/id_rsa.pub
+
+# TODO: git usage

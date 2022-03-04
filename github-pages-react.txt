@@ -27,4 +27,4 @@ Open package.json
 npm i -D gh-pages
 
 # deploy
-npm run deploy
+npm run deploy # does not support password-protected SSH keys
