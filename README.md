@@ -1,12 +1,8 @@
 # qTutorials
 
 ## syntax
-- `\# comment`
+- `# comment`
 - `Do something`
 - `run command`
 - `? untested`
-- `~` = `On Windows {
-    C:\Users\Patrolin\
-} or {
-    /home/Patrolin/
-}`
+- `~` = `On Windows { C:\Users\Patrolin\ } or { /home/Patrolin/ }`
