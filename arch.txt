@@ -153,6 +153,9 @@ nano /etc/pacman.conf
     Add "Include = /etc/pacman.d/mirrorlist"
 pacman -Syu
 
+# install faster GPU drivers https://wiki.archlinux.org/title/Xorg#Driver_installation
+# pacman -S ...
+
 # add a new user # some programs will refuse to execute as admin
 useradd -m <user name>
 passwd <user name>
@@ -197,3 +200,5 @@ yay -S alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa puls
 yay -S caja gvfs-mtp gvfs-smb
 
 # TODO: tint2 + rofi?
+
+# TODO: installing a VM manager
