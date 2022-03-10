@@ -9,7 +9,7 @@ On Windows {
         Click "START" and wait for it to finish
         Click "CLOSE"
 } On Linux {
-    lsblk # find <USB drive> eg. /dev/sdc
+    lsblk # find <USB drive>, for example: <USB drive> = "/dev/sdc"
     mkfs.vfat <USB drive> # format USB drive
     dd status=progress bs=1M if=<Arch iso> of=<USB drive> && sync # copy Arch to USB drive
 }
@@ -29,24 +29,38 @@ On EFI system {
     ls /sys/firmware # this should show an /efi folder
     ? ls /sys/firmware/efi # this should show an /efivars folder
     fdisk /dev/sda
-        # Make an EFI partition
+        If no other OSes are installed {
+            g # format drive to GPT
+        }
+
+        # make an EFI partition, we will assume <efi partition> = "/dev/sda1" (if you are unsure, check lsblk)
         n [Enter] [Enter] +1G
             t 1
 
-        # Make a Linux partition
+        # make a Linux partition, we will assume <linux partition> = "/dev/sda2"
         n [Enter] [Enter] [Enter]
 
         # Save and exit
         w
+    If no other OSes are installed {
+        mkfs.fat -F 32 <efi partition>
+    }
+    mkfs.ext4 <linux partition>
 } else {
     Find another tutorial
 }
 # mount the Linux partition at /mnt
-mount /dev/sda2 /mnt
+mount <linux partition> /mnt
 
 # mount the EFI partition at /mnt/boot
 mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
+mount <efi partition> /mnt/boot
+
+# make a swapfile
+dd status=progress bs=1M count=20480 if=/dev/zero of=/mnt/swapfile # make a 20GB file
+chmod 600 /mnt/swapfile
+mkswap /mnt/swapfile
+swapon /mnt/swapfile
 
 # connect to the internet
 On Ethernet {
@@ -66,7 +80,7 @@ ping 8.8.8.8 # should succeed
 ? pacman -Syyy
 
 # install Arch
-pacstrap /mnt base base-devel linux linux-firmware intel-ucode grub git sudo nano man-db man-pages
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates usbutils pciutils net-tools grub efibootmgr sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers
 # reasoning:
     # base base-devel                                       # most programs don't work without these
     # linux                                                 # Linux kernel, very important
@@ -87,6 +101,10 @@ genfstab -L /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 
 # set the timezone
+timedatectl set-ntp 1
+# timedatectl list-timezones
+? timedatectl set-timezone "Europe/Prague"
+? timedatectl set-local-rtc 0
 ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
 
 # set the language
@@ -115,7 +133,7 @@ mkinitcpio -P
 grub-install --target=x86_64-efi --efi-directory=/boot –bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# set admin password
+# set admin ("root") password
 passwd
     <admin password>
     <admin password>
@@ -125,10 +143,16 @@ exit
 reboot
     Select "Boot existing OS"
     Select "Arch Linux"
-    root # admin
+    root
     <admin password>
 
 ### post-install
+# enable installing 32-bit programs ("multilib")
+nano /etc/pacman.conf
+    Under [multilib]
+    Add "Include = /etc/pacman.d/mirrorlist"
+pacman -Syu
+
 # add a new user # some programs will refuse to execute as admin
 useradd -m <user name>
 passwd <user name>
