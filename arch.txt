@@ -1,0 +1,174 @@
+### setup
+Download <Arch iso> from https://archlinux.org/download/
+On Windows {
+    Download portable <Rufus exe> from https://rufus.ie/en/
+    Plug in USB drive
+    Launch <Rufus exe>
+        Select USB drive
+        Select the <Arch iso>
+        Click "START" and wait for it to finish
+        Click "CLOSE"
+} On Linux {
+    lsblk # find <USB drive> eg. /dev/sdc
+    mkfs.vfat <USB drive> # format USB drive
+    dd status=progress bs=1M if=<Arch iso> of=<USB drive> && sync # copy Arch to USB drive
+}
+
+On VM {
+    Don't have too much video memory for some reason
+} else {
+    Go into BIOS
+        Enable USB Boot
+        Set USB Disk as boot priority
+}
+
+### install
+Boot into Arch iso
+lsblk -o PTTYPE,PATH,SIZE,PARTTYPENAME,FSTYPE,FSVER,MOUNTPOINT # this command is your friend
+On EFI system {
+    ls /sys/firmware # this should show an /efi folder
+    ? ls /sys/firmware/efi # this should show an /efivars folder
+    fdisk /dev/sda
+        # Make an EFI partition
+        n [Enter] [Enter] +1G
+            t 1
+
+        # Make a Linux partition
+        n [Enter] [Enter] [Enter]
+
+        # Save and exit
+        w
+} else {
+    Find another tutorial
+}
+# mount the Linux partition at /mnt
+mount /dev/sda2 /mnt
+
+# mount the EFI partition at /mnt/boot
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+
+# connect to the internet
+On Ethernet {
+    ? Should be automatic
+} On WiFi {
+    iwctl
+        device list
+        station wlan0 get-networks
+        station wlan0 connect <network name>
+            <network password>
+        quit
+}
+ping 8.8.8.8 # should succeed
+
+# Get best mirrors (optional)
+? reflector -l 5 --sort score --save /etc/pacman.d/mirrorlist
+? pacman -Syyy
+
+# install Arch
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode grub git sudo nano man-db man-pages
+# reasoning:
+    # base base-devel                                       # most programs don't work without these
+    # linux                                                 # Linux kernel, very important
+    # linux-firmware intel-ucode                            # proprietary drivers
+    # networkmanager network-manager-applet ca-certificates # for connecting to the internet
+    # usbutils pciutils                                     # for listing USB and PCI(-E) devices: lsusb, lspci
+    # net-tools                                             # for listing network info: ifconfig
+    # grub efibootmgr                                       # for updating the EFI partition
+    # sudo                                                  # for executing commands as admin
+    # man-db man-pages texinfo                              # for viewing program manuals
+    # htop                                                  # for displaying CPU usage
+    # git                                                   # for downloading programs from github
+    # nano                                                  # for editing text
+    # xorg xorg-xinit xorg-drivers                          # for GUI programs to work
+genfstab -L /mnt >> /mnt/etc/fstab
+
+# open the installed system
+arch-chroot /mnt
+
+# set the timezone
+ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
+
+# set the language
+nano /etc/locale.gen
+    Uncomment en_US.UTF-8 UTF-8
+    [Ctrl+X] [Ctrl+S]
+locale-gen
+nano /etc/locale.conf
+    Add LANG=en_US.UTF-8
+    [Ctrl+X] [Ctrl+S]
+
+# set the hostname
+nano /etc/hostname
+    Write {
+        127.0.0.1	localhost
+        ::1			localhost
+        127.0.1.1 	<computer name>.local <computer name>
+    }
+    [Ctrl+X] [Ctrl+S]
+
+# enable starting NetworkManager on startup
+systemctl enable NetworkManager
+
+# update EFI partition
+mkinitcpio -P
+grub-install --target=x86_64-efi --efi-directory=/boot –bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+
+# set admin password
+passwd
+    <admin password>
+    <admin password>
+
+# reboot into Arch
+exit
+reboot
+    Select "Boot existing OS"
+    Select "Arch Linux"
+    root # admin
+    <admin password>
+
+### post-install
+# add a new user # some programs will refuse to execute as admin
+useradd -m <user name>
+passwd <user name>
+    <user password>
+    <user password>
+usermod -aG wheel,tty,uucp <user name>
+
+# give the "wheel" user group permission to execute programs as admin
+EDITOR=nano visudo
+    Uncomment or add %wheel ALL=(ALL) ALL
+    [Ctrl+X] [Ctrl+S]
+
+# install yay package manager for downloading AUR packages easily
+git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -isc
+    cd ..
+    rm -rf yay
+
+# install login screen ("Display Manager")
+? yay -S lightdm
+sudo nano /etc/ly/config.ini
+    Write {
+        tty = 2
+        ? numlock = ...
+    }
+    [Ctrl+X] [Ctrl+S]
+sudo systemctl enable ly.service
+sudo systemctl disable getty@tty2.service
+
+# install window manager
+? yay -S openbox
+
+# install fonts
+yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
+
+# install audio drivers
+yay -S alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio pulsemixer pavucontrol
+
+# install file explorer
+yay -S caja gvfs-mtp gvfs-smb
+
+# TODO: tint2 + rofi?

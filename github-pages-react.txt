@@ -1,8 +1,7 @@
-
-# setup
+### setup
 Do {
     Create a github repo
-    git clone https://github.com/Patrolin/my-app.git
+    git clone https://github.com/patrolin/my-app.git
 
     # https://github.com/facebook/create-react-app
     npx create-react-app my-app
@@ -15,16 +14,20 @@ Do {
     npm start
 
     Create an empty github repo
-    git remote add origin https://github.com/Patrolin/my-app.git
+    git remote add origin https://github.com/patrolin/my-app.git
+    git add -A
+    git commit
+    git push
 }
 
 Open package.json
-    Add "homepage": "https://Patrolin.github.io/my-app",
+    Add "homepage": "https://patrolin.github.io/my-app",
     Under "scripts": {
         Add "predeploy": "npm run build",
         Add "deploy": "gh-pages -d build",
     }
-npm i -D gh-pages
+Do { npm i -D gh-pages } or { yarn add --dev gh-pages }
 
-# deploy
+
+### deploy
 npm run deploy # does not support password-protected SSH keys

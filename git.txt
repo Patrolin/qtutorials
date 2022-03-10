@@ -1,18 +1,13 @@
-
-# setup git
+### setup
 On Windows {
-    https://git-scm.com/downloads
+    Download git from https://git-scm.com/downloads
 }
 
 git config --global user.name "Patrolin"
 git config --global user.email “Patrolin@example.com”
 
-# setup SSH key
-On Windows {
-    Right click > Open git bash
-} or {
-    Open a terminal
-}
+## setup SSH key
+On Windows { Right click > Open git bash } On Linux { Open a terminal }
     ssh-keygen
         # private key is saved in ~/.ssh/id_rsa
         # public key is saved in ~/.ssh/id_rsa.pub
@@ -22,4 +17,4 @@ Open https://github.com/settings/keys
     New SSH key
     Copy ~/.ssh/id_rsa.pub
 
-# TODO: git usage
+### TODO: git usage
