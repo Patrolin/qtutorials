@@ -161,6 +161,7 @@ sudo systemctl disable getty@tty2.service
 
 # install window manager
 ? yay -S openbox
+# TODO: openbox configuration
 
 # install fonts
 yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
