@@ -9,4 +9,4 @@
 - `? untested`
 - `~` = `On Windows { C:\Users\Patrolin\ } On Linux { /home/Patrolin/ }`
 - `[Ctrl+X]` = `Hit Ctrl+X`
-- `<variable>`
+- `<variable> = value`

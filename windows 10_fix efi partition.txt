@@ -1,0 +1,41 @@
+Boot into any Windows 10 USB
+Press Shift+F10 to open an admin console
+
+# be very careful as there is no undo
+diskpart
+    # remove corrupted EFI partition
+    list disk # we will assume <disk number> = 0
+    sel disk <disk number>
+    list partition # we will assume <partition number> = 2
+    sel partition <partition number>
+    delete partition override # force deletion of system-type partition
+    list partition
+
+    # create a new EFI partition
+    list disk # we will assume <disk number> = 0
+    sel disk <disk number>
+    list partition # we will assume <partition number> = 2
+    create partition efi size=1000 # size=1000 MB
+    format quick fs=fat32
+    list partition
+
+    # assign a letter to Windows partition
+    list volume
+    sel volume 2
+    assign letter=D
+
+    # assign a letter to EFI partition
+    list volume
+    sel volume 3
+    assign letter=R
+
+    # print assigned letters and exit
+    list volume
+    exit
+
+# Restore system files
+sfc /SCANNOW /OFFBOOTDIR=D: /OFFWINDIR=D:\Windows
+Exit console and reopen it again with Shift+F10
+
+# Create bootloader
+bcdboot D:\Windows /s R:

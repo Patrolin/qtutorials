@@ -3,8 +3,8 @@ On Windows {
     Download git from https://git-scm.com/downloads
 }
 
-git config --global user.name "Patrolin"
-git config --global user.email “Patrolin@example.com”
+git config --global user.name "<username>"
+git config --global user.email “<email>”
 
 ## setup SSH key
 On Windows { Right click > Open git bash } On Linux { Open a terminal }
@@ -17,4 +17,44 @@ Open https://github.com/settings/keys
     New SSH key
     Copy ~/.ssh/id_rsa.pub
 
-### TODO: git usage
+### setup git in your project
+Do {
+    Create a new <github repository>
+    git clone https://github.com/<username>/<github repository>.git # clone repository into new folder called <github repository>
+} or {
+    Create a new project
+    git remote add origin https://github.com/<username>/<github repository>.git # add git to your project
+}
+
+### usage
+
+## adding commits
+Do {
+    git add -A # add all files
+} or {
+    git add <file name> # add single file
+}
+git commit # save commit locally
+git push # send local commits to server
+
+## switching to a different branch
+git branch # print local branches
+git fetch # get server branches
+git branch -r # print server branches
+git checkout <branch name> # save server branch locally (or create it locally if it doesn't exist)
+
+## get commits from server
+Do {
+    git pull # save server commits locally
+} or {
+    git pull origin <branch name> # merge commits from <branch name> into local branch
+}
+
+## deleting a local branch
+git branch # print local branches
+git branch -d <branch name> # delete local branch
+
+## deleting a server branch
+git fetch # get server branches
+git branch -r # print server branches
+git push origin --delete <branch name>
