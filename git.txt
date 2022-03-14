@@ -30,9 +30,9 @@ Do {
 
 ## adding commits
 Do {
-    git add -A # add all files
+    git add -A # add all files to commit
 } or {
-    git add <file name> # add single file
+    git add <file name> # add a single file to commit
 }
 git commit # save commit locally
 git push # send local commits to server
@@ -41,13 +41,13 @@ git push # send local commits to server
 git branch # print local branches
 git fetch # get server branches
 git branch -r # print server branches
-git checkout <branch name> # save server branch locally (or create it locally if it doesn't exist)
+git checkout <branch name> # switch to local branch <branch name> (create it if it doesn't exist (and copy files from server branch if it exists))
 
 ## get commits from server
 Do {
     git pull # save server commits locally
 } or {
-    git pull origin <branch name> # merge commits from <branch name> into local branch
+    git pull origin <branch name> # merge commits from server branch <branch name> into current local branch
 }
 
 ## deleting a local branch
