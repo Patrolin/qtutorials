@@ -80,15 +80,14 @@ ping 8.8.8.8 # should succeed
 ? pacman -Syyy
 
 # install Arch
-pacstrap /mnt base base-devel linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates usbutils pciutils net-tools grub efibootmgr sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates usbutils pciutils net-tools sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers
 # reasoning:
-    # base base-devel                                       # most programs don't work without these
+    # base base-devel                                       # most programs don't work without these (also installs systemd-boot)
     # linux                                                 # Linux kernel, very important
     # linux-firmware intel-ucode                            # proprietary drivers
     # networkmanager network-manager-applet ca-certificates # for connecting to the internet # TODO: try iwd
     # usbutils pciutils                                     # for listing USB and PCI(-E) devices: lsusb, lspci
     # net-tools                                             # for listing network info: ifconfig
-    # grub efibootmgr                                       # for updating the EFI partition
     # sudo                                                  # for executing commands as admin
     # man-db man-pages texinfo                              # for viewing program manuals
     # htop                                                  # for displaying CPU usage
@@ -129,9 +128,8 @@ nano /etc/hostname
 systemctl enable NetworkManager
 
 # update EFI partition
-mkinitcpio -P
-grub-install --target=x86_64-efi --efi-directory=/boot –bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
+# mkinitcpio -P
+? bootctl --esp-path=/efi --boot-path=/boot install
 
 # set admin ("root") password
 passwd
