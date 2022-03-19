@@ -8,6 +8,7 @@ On Windows {
         Select the <Arch iso>
         Click "START" and wait for it to finish
         Click "CLOSE"
+    Disable fast startup and hibernation
 } On Linux {
     lsblk # find <USB drive>, for example: <USB drive> = "/dev/sdc"
     mkfs.vfat <USB drive> # format USB drive
@@ -26,8 +27,7 @@ On VM {
 Boot into Arch iso
 lsblk -o PTTYPE,PATH,SIZE,PARTTYPENAME,FSTYPE,FSVER,MOUNTPOINT # this command is your friend
 On EFI system {
-    ls /sys/firmware # this should show an /efi folder
-    ? ls /sys/firmware/efi # this should show an /efivars folder
+    ls /sys/firmware/efi # this should show an /efivars folder
     fdisk /dev/sda
         If no other OSes are installed {
             g # format drive to GPT
@@ -52,12 +52,12 @@ On EFI system {
 # mount the Linux partition at /mnt
 mount <linux partition> /mnt
 
-# mount the EFI partition at /mnt/boot
-mkdir /mnt/boot
-mount <efi partition> /mnt/boot
+# mount the EFI partition at /mnt/efi
+mkdir /mnt/efi
+mount <efi partition> /mnt/efi
 
 # make a swapfile
-dd status=progress bs=1M count=20480 if=/dev/zero of=/mnt/swapfile # make a 20GB file
+fallocate -l 20GB /swapfile # make a 20GB file
 chmod 600 /mnt/swapfile
 mkswap /mnt/swapfile
 swapon /mnt/swapfile
@@ -128,8 +128,14 @@ nano /etc/hostname
 systemctl enable NetworkManager
 
 # update EFI partition
-# mkinitcpio -P
 ? bootctl --esp-path=/efi --boot-path=/boot install
+nano /efi/loader/loader.conf
+    Write {
+        default arch.conf
+        timeout 4
+        console-mode max
+        editor no
+    }
 
 # set admin ("root") password
 passwd
