@@ -33,31 +33,31 @@ On EFI system {
             g # format drive to GPT
         }
 
-        # make an EFI partition, we will assume <efi partition> = "/dev/sda1" (if you are unsure, check lsblk)
+        # make an EFI partition, we will assume <EFI partition> = "/dev/sda1" (if you are unsure, check lsblk)
         n [Enter] [Enter] +1G
             t 1
 
-        # make a Linux partition, we will assume <linux partition> = "/dev/sda2"
+        # make a Linux partition, we will assume <Linux partition> = "/dev/sda2"
         n [Enter] [Enter] [Enter]
 
         # Save and exit
         w
     If no other OSes are installed {
-        mkfs.fat -F 32 <efi partition>
+        mkfs.fat -F 32 <EFI partition>
     }
-    mkfs.ext4 <linux partition>
+    mkfs.ext4 <Linux partition>
 } else {
     Find another tutorial
 }
 # mount the Linux partition at /mnt
-mount <linux partition> /mnt
+mount <Linux partition> /mnt
 
-# mount the EFI partition at /mnt/efi
-mkdir /mnt/efi
-mount <efi partition> /mnt/efi
+# mount the EFI partition at /mnt/boot
+mkdir /mnt/boot
+mount <EFI partition> /mnt/boot
 
 # make a swapfile
-fallocate -l 20GB /swapfile # make a 20GB file
+dd status=progress bs=1M count=20480 if=/dev/zero of=/mnt/swapfile # make a 20GB file
 chmod 600 /mnt/swapfile
 mkswap /mnt/swapfile
 swapon /mnt/swapfile
@@ -80,12 +80,13 @@ ping 8.8.8.8 # should succeed
 ? pacman -Syyy
 
 # install Arch
-pacstrap /mnt base base-devel linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates usbutils pciutils net-tools sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates mtools dosfstools usbutils pciutils net-tools sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers
 # reasoning:
     # base base-devel                                       # most programs don't work without these (also installs systemd-boot)
     # linux                                                 # Linux kernel, very important
-    # linux-firmware intel-ucode                            # proprietary drivers
-    # networkmanager network-manager-applet ca-certificates # for connecting to the internet # TODO: try iwd
+    # linux-firmware intel-ucode                            # proprietary firmware
+    # networkmanager network-manager-applet ca-certificates # for connecting to the internet
+    # mtools dosfstools                                     # for accessing FAT file systems
     # usbutils pciutils                                     # for listing USB and PCI(-E) devices: lsusb, lspci
     # net-tools                                             # for listing network info: ifconfig
     # sudo                                                  # for executing commands as admin
@@ -127,9 +128,31 @@ nano /etc/hostname
 # enable starting NetworkManager on startup
 systemctl enable NetworkManager
 
-# update EFI partition
-? bootctl --esp-path=/efi --boot-path=/boot install
-nano /efi/loader/loader.conf
+# overwrite EFI partition with systemd-boot
+? bootctl install
+
+# create linux boot file
+mkinitcpio -P # creates /boot/vmlinuz-linux and /boot/initramfs-linux.img
+? nano /boot/loader/entries
+    Write {
+        title Arch linux
+        linux /vmlinuz-linux
+        initrd /intel-ucode.img # optional
+        initrd /initramfs-linux.img
+        options root=<Linux partition> rw
+    }
+? nano /boot/loader/entries/arch-fallback.conf
+    Write {
+        title Arch Linux (fallback)
+        linux /vmlinuz-linux
+        initrd /intel-ucode.img # optional
+        initrd /initramfs-linux-fallback.img
+        options root=<Linux partition> rw
+    }
+
+# set bootloader settings
+ls /boot/loader/entries # list all OSes
+nano /boot/loader/loader.conf
     Write {
         default arch.conf
         timeout 4
@@ -151,9 +174,9 @@ reboot
     <admin password>
 
 ### post-install
+
 # connect to a network
-nmcli
-    ?
+? nmtui
 
 # enable installing 32-bit programs ("multilib")
 nano /etc/pacman.conf
@@ -161,8 +184,10 @@ nano /etc/pacman.conf
     Add "Include = /etc/pacman.d/mirrorlist"
 pacman -Syu
 
-# install faster GPU drivers https://wiki.archlinux.org/title/Xorg#Driver_installation
-# pacman -S ...
+Install faster GPU drivers https://wiki.archlinux.org/title/Xorg#Driver_installation
+# pacman -S xf86-video-amdgpu xf86-video-ati
+# pacman -S xf86-video-intel
+# pacman -S xf86-video-nouveau
 
 # add a new user # some programs will refuse to execute as admin
 useradd -m <user name>
@@ -197,6 +222,8 @@ sudo systemctl disable getty@tty2.service
 # install window manager
 ? yay -S openbox
 # TODO: openbox configuration
+# TODO: tint2 + rofi?
+# https://www.youtube.com/watch?v=GE5qNANComM
 
 # install fonts
 yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
@@ -207,6 +234,4 @@ yay -S alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa puls
 # install file explorer
 yay -S caja gvfs-mtp gvfs-smb
 
-# TODO: tint2 + rofi?
-
-# TODO: installing a VM manager
+# TODO: install a VM manager
