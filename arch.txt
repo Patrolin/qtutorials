@@ -224,4 +224,7 @@ git clone https://aur.archlinux.org/yay.git
 # install terminal
 Do { ? yay -S sakura } or { ? yay -S kitty }
 
+# start openbox
+openbox-session # run startup scripts and start openbox
+
 # TODO: install a VM manager
