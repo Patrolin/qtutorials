@@ -208,22 +208,13 @@ git clone https://aur.archlinux.org/yay.git
     cd ..
     rm -rf yay
 
-# install login screen ("Display Manager")
-? yay -S lightdm
-sudo nano /etc/ly/config.ini
-    Write {
-        tty = 2
-        ? numlock = ...
-    }
-    [Ctrl+X] [Ctrl+S]
-sudo systemctl enable ly.service
-sudo systemctl disable getty@tty2.service
-
 # install window manager
 ? yay -S openbox
 # TODO: openbox configuration
 # TODO: tint2 + rofi?
 # https://www.youtube.com/watch?v=GE5qNANComM
+# install terminal
+? yay -S sakura
 
 # install fonts
 yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
