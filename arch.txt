@@ -209,7 +209,7 @@ git clone https://aur.archlinux.org/yay.git
     rm -rf yay
 
 # install window manager
-? yay -S openbox
+? yay -S openbox obconf lxinput obkey arandr
 # TODO: openbox configuration
 # TODO: tint2 + rofi?
 # https://www.youtube.com/watch?v=GE5qNANComM
