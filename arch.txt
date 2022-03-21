@@ -8,7 +8,9 @@ On Windows {
         Select the <Arch iso>
         Click "START" and wait for it to finish
         Click "CLOSE"
-    Disable fast startup and hibernation
+    Open power settings > Disable fast startup and hibernation
+    regedit
+        Add DWORD=1 at HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\RealTimeIsUniversal
 } On Linux {
     lsblk # find <USB drive>, for example: <USB drive> = "/dev/sdc"
     mkfs.vfat <USB drive> # format USB drive
