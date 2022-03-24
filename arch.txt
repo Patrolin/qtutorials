@@ -22,7 +22,7 @@ On VM {
 } else {
     Go into BIOS
         Enable USB Boot
-        Set USB Disk as boot priority
+        Boot from USB Disk
 }
 
 ### install
@@ -82,9 +82,10 @@ ping 8.8.8.8 # should succeed
 ? pacman -Syyy
 
 # install Arch
-pacstrap /mnt base base-devel linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates mtools dosfstools usbutils pciutils net-tools sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers xorg-xrandr autorandr alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio
+pacstrap /mnt base base-devel efibootmgr linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates mtools dosfstools usbutils pciutils net-tools sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers xorg-xrandr autorandr alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio
 # reasoning:
     # base base-devel                                                                 # most programs don't work without these (also installs systemd-boot)
+    # efibootmgr          # support booting multiple OSs
     # linux                                                                           # Linux kernel, very important
     # linux-firmware intel-ucode                                                      # proprietary firmware
     # networkmanager network-manager-applet ca-certificates                           # for connecting to the internet
@@ -98,17 +99,18 @@ pacstrap /mnt base base-devel linux linux-firmware intel-ucode networkmanager ne
     # nano                                                                            # for editing text
     # xorg xorg-xinit xorg-drivers xorg-xrandr autorandr                              # for GUI programs to work
     # alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio # for audio to work
-genfstab -L /mnt >> /mnt/etc/fstab
+genfstab -L /mnt > /mnt/etc/fstab
 
 # open the installed system
 arch-chroot /mnt
 
 # set the timezone
 timedatectl set-ntp 1
-# timedatectl list-timezones
-? timedatectl set-timezone "Europe/Prague"
-? timedatectl set-local-rtc 0
-ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
+timedatectl list-timezones
+timedatectl set-timezone "Europe/Prague"
+timedatectl set-local-rtc 0
+timedatectl
+# ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
 
 # set the language
 nano /etc/locale.gen
@@ -136,7 +138,7 @@ systemctl enable NetworkManager
 
 # create linux boot file
 mkinitcpio -P # creates /boot/vmlinuz-linux and /boot/initramfs-linux.img
-? nano /boot/loader/entries
+? nano /boot/loader/entries/arch.conf
     Write {
         title Arch linux
         linux /vmlinuz-linux
@@ -169,10 +171,9 @@ passwd
     <admin password>
 
 # reboot into Arch
-exit
-reboot
-    Select "Boot existing OS"
-    Select "Arch Linux"
+shutdown now
+Unplug USB
+Start computer
     root
     <admin password>
 
