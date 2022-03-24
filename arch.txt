@@ -76,6 +76,7 @@ On Ethernet {
         quit
 }
 ping 8.8.8.8 # should succeed
+    [Ctrl+C]
 
 # Get best mirrors (optional)
 ? reflector -l 5 --sort score --save /etc/pacman.d/mirrorlist
@@ -136,8 +137,7 @@ systemctl enable NetworkManager
 # overwrite EFI partition with systemd-boot
 ? bootctl install
 
-# create linux boot file
-mkinitcpio -P # creates /boot/vmlinuz-linux and /boot/initramfs-linux.img
+# create linux boot settings
 ? nano /boot/loader/entries/arch.conf
     Write {
         title Arch linux
@@ -180,12 +180,20 @@ Start computer
 ### post-install
 
 # connect to a network
-? nmtui
+nmtui
+    Select "Activate a connection"
+    Select <network name>
+    Input <network password>
+ping 8.8.8.8 # should succeed
+    [Ctrl+C]
 
 # enable installing 32-bit programs ("multilib")
 nano /etc/pacman.conf
-    Under [multilib]
-    Add "Include = /etc/pacman.d/mirrorlist"
+    Uncomment {
+        [multilib]
+        Include = /etc/pacman.d/mirrorlist
+    }
+    [Ctrl+S] [Ctrl+X]
 pacman -Syu
 
 Install faster GPU drivers https://wiki.archlinux.org/title/Xorg#Driver_installation
@@ -202,13 +210,17 @@ usermod -aG wheel,tty,uucp <user name>
 
 # give the "wheel" user group permission to execute programs as admin
 EDITOR=nano visudo
-    Uncomment or add %wheel ALL=(ALL) ALL
-    [Ctrl+X] [Ctrl+S]
+    Uncomment or add %wheel ALL=(ALL:ALL) ALL
+    [Ctrl+S] [Ctrl+X]
+
+logout
+    <user name>
+    <user password>
 
 # install yay package manager for downloading AUR packages easily
 git clone https://aur.archlinux.org/yay.git
     cd yay
-    makepkg -isc
+    makepkg -sic
     cd ..
     rm -rf yay
 
