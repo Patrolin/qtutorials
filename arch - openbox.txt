@@ -1,0 +1,57 @@
+### window manager
+
+## generic graphics driver
+pacman -S xf86-video-fbdev
+
+## faster GPU drivers https://wiki.archlinux.org/title/Xorg#Driver_installation
+# pacman -S xf86-video-intel # Intel
+# pacman -S xf86-video-amdgpu xf86-video-ati # AMD
+# pacman -S nvidia # NVIDIA
+
+## drivers and config programs
+yay -S xorg xorg-xinit xorg-drivers xorg-xrandr autorandr arandr pulsemixer pavucontrol lxinput
+
+# openbox
+yay -S openbox openbox-themes obconf obkey
+
+# TODO: openbox configuration
+
+cp /etc/X11/xinit/xinitrc ~/.xinitrc
+nano ~/.xinitrc {
+    Delete last 5 lines (twm..)
+    Add {
+        nitrogen --restore &
+        exec openbox
+    }
+}
+
+
+### apps
+
+## fonts
+yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
+
+## file manager
+yay -S caja gvfs-mtp gvfs-smb
+
+## terminal
+Do { ? yay -S sakura } or { ? yay -S kitty }
+
+## browser
+yay -S firefox
+
+## image viewer / editor
+# sxiv, imv
+yay -S gimp
+
+# TODO: tint2 + rofi?
+
+
+### post-install
+
+## start window manager
+startx
+
+## wallpaper
+yay -S nitrogen
+nitrogen

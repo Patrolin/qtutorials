@@ -25,6 +25,7 @@ On VM {
         Set USB Disk as boot priority
 }
 
+
 ### install
 Boot into Arch iso
 lsblk -o PTTYPE,PATH,SIZE,PARTTYPENAME,FSTYPE,FSVER,MOUNTPOINT # this command is your friend
@@ -96,7 +97,6 @@ pacstrap /mnt base base-devel linux linux-firmware intel-ucode networkmanager ne
     # htop                                                                            # for displaying CPU usage
     # git                                                                             # for downloading programs from github
     # nano                                                                            # for editing text
-    # xorg xorg-xinit xorg-drivers xorg-xrandr autorandr                              # for GUI programs to work
     # alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio # for audio to work
 genfstab -L /mnt >> /mnt/etc/fstab
 
@@ -113,11 +113,11 @@ ln -sf /usr/share/zoneinfo/Europe/Prague /etc/localtime
 # set the language
 nano /etc/locale.gen
     Uncomment en_US.UTF-8 UTF-8
-    [Ctrl+X] [Ctrl+S]
+    [Ctrl+S] [Ctrl+X]
 locale-gen
 nano /etc/locale.conf
     Add LANG=en_US.UTF-8
-    [Ctrl+X] [Ctrl+S]
+    [Ctrl+S] [Ctrl+X]
 
 # set the hostname
 nano /etc/hostname
@@ -126,7 +126,7 @@ nano /etc/hostname
         ::1			localhost
         127.0.1.1 	<computer name>.local <computer name>
     }
-    [Ctrl+X] [Ctrl+S]
+    [Ctrl+S] [Ctrl+X]
 
 # enable starting NetworkManager on startup
 systemctl enable NetworkManager
@@ -176,6 +176,7 @@ reboot
     root
     <admin password>
 
+
 ### post-install
 
 # connect to a network
@@ -187,11 +188,6 @@ nano /etc/pacman.conf
     Add "Include = /etc/pacman.d/mirrorlist"
 pacman -Syu
 
-Install faster GPU drivers https://wiki.archlinux.org/title/Xorg#Driver_installation
-# pacman -S xf86-video-amdgpu xf86-video-ati
-# pacman -S xf86-video-intel
-# pacman -S xf86-video-nouveau
-
 # add a new user # some programs will refuse to execute as admin
 useradd -m <user name>
 passwd <user name>
@@ -202,7 +198,7 @@ usermod -aG wheel,tty,uucp <user name>
 # give the "wheel" user group permission to execute programs as admin
 EDITOR=nano visudo
     Uncomment or add %wheel ALL=(ALL) ALL
-    [Ctrl+X] [Ctrl+S]
+    [Ctrl+S] [Ctrl+X]
 
 # install yay package manager for downloading AUR packages easily
 git clone https://aur.archlinux.org/yay.git
@@ -210,23 +206,3 @@ git clone https://aur.archlinux.org/yay.git
     makepkg -isc
     cd ..
     rm -rf yay
-
-# install GUI ("window manager")
-? yay -S openbox openbox-themes obconf lxinput obkey arandr noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid caja gvfs-mtp gvfs-smb
-# reasoning:
-    # openbox                                            # window manager
-    # openbox-themes                                     # default themes
-    # obconf lxinput obkey arandr pulsemixer pavucontrol # GUI settings
-    # noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid   # fonts
-    # caja gvfs-mtp gvfs-smb                             # file explorer
-# TODO: openbox configuration
-# TODO: tint2 + rofi?
-# https://www.youtube.com/watch?v=GE5qNANComM
-
-# install terminal
-Do { ? yay -S sakura } or { ? yay -S kitty }
-
-# start openbox
-openbox-session # run startup scripts and start openbox
-
-# TODO: install a VM manager
