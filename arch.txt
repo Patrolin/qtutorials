@@ -213,7 +213,7 @@ logout
     <user name>
     <user password>
 
-# install yay package manager for downloading AUR packages easily
+# install yay package manager for installing AUR packages easily
 git clone https://aur.archlinux.org/yay.git
     cd yay
     makepkg -sic

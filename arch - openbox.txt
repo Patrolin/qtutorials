@@ -11,40 +11,54 @@ pacman -S xf86-video-fbdev
 ## drivers and config programs
 yay -S xorg xorg-xinit xorg-drivers xorg-xrandr autorandr arandr pulsemixer pavucontrol lxinput
 
-# openbox
-yay -S openbox openbox-themes obconf obkey
-
-# TODO: openbox configuration
+## openbox
+yay -S openbox obconf obkey nitrogen picom tint2 rofi
+? yay -S openbox-themes lxappearance
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc
 nano ~/.xinitrc {
     Delete last 5 lines (twm..)
     Add {
+        picom &
         nitrogen --restore &
+        tint2 &
         exec openbox
     }
 }
 
-
-### apps
+# TODO: MenuMaker on startup?
+cp /etc/xdg/openbox/rc.xml ~/.config/openbox/rc.xml
+nano ~/.config/openbox/rc.xml {
+    ?
+    # TODO: launch "rofi" on [Super]
+}
 
 ## fonts
 yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
 
+## terminal "emulator"
+Do { ? yay -S sakura } or { ? yay -S kitty }
+
+### apps
+
 ## file manager
 yay -S caja gvfs-mtp gvfs-smb
-
-## terminal
-Do { ? yay -S sakura } or { ? yay -S kitty }
 
 ## browser
 yay -S firefox
 
+## text editor
+yay -S qed
+
 ## image viewer / editor
-# sxiv, imv
+# sxiv, imv?
 yay -S gimp
 
-# TODO: tint2 + rofi?
+## video viewer
+yay -S mpv
+
+## video/graphics editor
+yay -S blender
 
 
 ### post-install
@@ -52,6 +66,5 @@ yay -S gimp
 ## start window manager
 startx
 
-## wallpaper
-yay -S nitrogen
+## set wallpaper
 nitrogen
