@@ -9,10 +9,10 @@ pacman -S xf86-video-fbdev
 # pacman -S nvidia # NVIDIA
 
 ## drivers and config programs
-yay -S xorg xorg-xinit xorg-drivers xorg-xrandr autorandr arandr pulsemixer pavucontrol lxinput
+yay -S xorg xorg-xinit xorg-drivers xorg-xrandr autorandr arandr
 
 ## openbox
-yay -S openbox obconf obkey nitrogen picom tint2 rofi
+yay -S openbox picom nitrogen tint2 rofi
 ? yay -S openbox-themes lxappearance
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc
@@ -29,12 +29,12 @@ nano ~/.xinitrc {
 setxkbmap cz qwerty
 localectl # should now show the same keymap twice (once for console, once for xorg)
 
-# TODO: MenuMaker on startup?
-cp /etc/xdg/openbox/rc.xml ~/.config/openbox/rc.xml
-nano ~/.config/openbox/rc.xml {
-    # https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/openbox/rc.xml
-    # TODO: launch "rofi" on [Super]
-}
+## settings
+yay -S obconf lxinput obkey pavucontrol
+# obconf = Openbox appearance
+# lxinput = Keyboard and mouse
+# obkey = Keyboard shortcuts
+# pavucontrol = Audio
 
 ## fonts
 yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
@@ -52,15 +52,58 @@ yay -S firefox
 yay -S xed
 
 
+### post-install
+
+## start window manager
+startx
+
+## setup keyboard shortcuts
+Right click > Terminals > Xterm {
+    obconf {
+        Delete everything
+        Add [Super+S] > Add Execute > rofi -show run
+        Add [Super+T] > Add Execute > sakura
+        Save and exit
+    }
+    [Ctrl+D]
+}
+
+
+## set wallpaper
+nitrogen {
+    Preferences > Directories > Add > ...
+    ...
+    Apply and exit
+}
+
+## configure openbox
+nano ~/.config/openbox/rc.xml {
+    # eg. https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/openbox/rc.xml
+}
+
+## edit right click menu
+Edit ~/.config/openbox/menu.xml {
+    # eg. https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/openbox/menu.xml
+}
+
+
 ### extra apps
 
 ## bluetooth support
-yay -S bluez bluez-utils
+yay -S bluez bluez-utils blueman pulseaudio-bluetooth
 systemctl enable --now bluetooth.service
 usermod -aG lp <username>
-Log out and log back in # Exit openbox, Run logout, Log in, Run startx
+sudo nano /etc/pulse/system.pa {
+    Add {
+        load-module module-bluetooth-policy
+        load-module module-bluetooth-discover
+    }
+}
+pulseaudio -k
+Restart # Exit openbox and Run shutdown now
+
 groups # should now include lp
-yay -S blueman
+blueman-manager
 
 ## image viewer / editor
 # sxiv, imv?
@@ -71,17 +114,3 @@ yay -S mpv
 
 ## video/graphics editor
 yay -S blender
-
-
-### post-install
-
-## start window manager
-startx
-
-## set wallpaper
-nitrogen
-
-## edit right click menu
-Edit ~/.config/openbox/menu.xml {
-    # https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/openbox/menu.xml
-}
