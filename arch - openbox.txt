@@ -12,7 +12,7 @@ pacman -S xf86-video-fbdev
 yay -S xorg xorg-xinit xorg-drivers xorg-xrandr autorandr arandr
 
 ## openbox
-yay -S openbox picom nitrogen tint2 rofi
+yay -S openbox picom nitrogen tint2 rofi caffeine-ng
 ? yay -S openbox-themes lxappearance
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc
