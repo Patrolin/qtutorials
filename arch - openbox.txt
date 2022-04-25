@@ -29,7 +29,7 @@ nano ~/.xinitrc {
 # TODO: MenuMaker on startup?
 cp /etc/xdg/openbox/rc.xml ~/.config/openbox/rc.xml
 nano ~/.config/openbox/rc.xml {
-    ?
+    # https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/openbox/rc.xml
     # TODO: launch "rofi" on [Super]
 }
 
@@ -39,16 +39,17 @@ yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
 ## terminal "emulator"
 Do { ? yay -S sakura } or { ? yay -S kitty }
 
-### apps
-
 ## file manager
-yay -S caja gvfs-mtp gvfs-smb
+yay -S pcmanfm
 
 ## browser
 yay -S firefox
 
 ## text editor
 yay -S qed
+
+
+### extra apps
 
 ## image viewer / editor
 # sxiv, imv?
@@ -68,3 +69,8 @@ startx
 
 ## set wallpaper
 nitrogen
+
+## edit right click menu
+Edit ~/.config/openbox/menu.xml {
+    # https://gitlab.com/dwt1/dotfiles/-/blob/master/.config/openbox/menu.xml
+}
