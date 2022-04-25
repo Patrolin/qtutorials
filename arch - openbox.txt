@@ -49,7 +49,7 @@ yay -S pcmanfm
 yay -S firefox
 
 ## text editor
-yay -S qed
+yay -S xed
 
 
 ### extra apps
