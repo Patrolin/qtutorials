@@ -37,7 +37,7 @@ nano ~/.config/openbox/rc.xml {
 yay -S noto-fonts noto-fonts-emoji ttf-dejavu ttf-droid
 
 ## terminal "emulator"
-Do { ? yay -S sakura } or { ? yay -S kitty }
+yay -S sakura xterm # xterm is shown in right click menu by default, you need to add sakura manually
 
 ## file manager
 yay -S pcmanfm
