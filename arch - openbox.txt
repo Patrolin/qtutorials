@@ -26,6 +26,9 @@ nano ~/.xinitrc {
     }
 }
 
+setxkbmap cz qwerty
+localectl # should now show the same keymap twice (once for console, once for xorg)
+
 # TODO: MenuMaker on startup?
 cp /etc/xdg/openbox/rc.xml ~/.config/openbox/rc.xml
 nano ~/.config/openbox/rc.xml {
