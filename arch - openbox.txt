@@ -54,6 +54,13 @@ yay -S xed
 
 ### extra apps
 
+## bluetooth support
+yay -S bluez bluez-utils
+systemctl enable --now bluetooth.service
+usermod -aG lp <username>
+Log out and log back in
+groups # should now include lp
+
 ## image viewer / editor
 # sxiv, imv?
 yay -S gimp
