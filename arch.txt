@@ -84,22 +84,21 @@ ping 8.8.8.8 # should succeed
 ? pacman -Syyy
 
 # install Arch
-pacstrap /mnt base base-devel efibootmgr linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates mtools dosfstools usbutils pciutils net-tools sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers xorg-xrandr autorandr alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio
+pacstrap /mnt base base-devel efibootmgr linux linux-firmware intel-ucode networkmanager network-manager-applet ca-certificates mtools dosfstools usbutils pciutils net-tools sudo man-db man-pages texinfo htop git nano xorg xorg-xinit xorg-drivers xorg-xrandr autorandr alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio pulsemixer
 # reasoning:
     # base base-devel                                                                 # most programs don't work without these (also installs systemd-boot)
-    # efibootmgr          # support booting multiple OSs
-    # linux                                                                           # Linux kernel, very important
-    # linux-firmware intel-ucode                                                      # proprietary firmware
-    # networkmanager network-manager-applet ca-certificates                           # for connecting to the internet
-    # mtools dosfstools                                                               # for accessing FAT file systems
-    # usbutils pciutils                                                               # for listing USB and PCI(-E) devices: lsusb, lspci
-    # net-tools                                                                       # for listing network info: ifconfig
-    # sudo                                                                            # for executing commands as admin
-    # man-db man-pages texinfo                                                        # for viewing program manuals
-    # htop                                                                            # for displaying CPU usage
-    # git                                                                             # for downloading programs from github
-    # nano                                                                            # for editing text
-    # alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio # for audio to work
+    # linux                                                                                      # Linux kernel, very important
+    # linux-firmware intel-ucode                                                                 # proprietary firmware
+    # networkmanager network-manager-applet ca-certificates                                      # for connecting to the internet
+    # mtools dosfstools                                                                          # for accessing FAT file systems
+    # usbutils pciutils                                                                          # for listing USB and PCI(-E) devices: lsusb, lspci
+    # net-tools                                                                                  # for listing network info: ifconfig
+    # sudo                                                                                       # for executing commands as admin
+    # man-db man-pages texinfo                                                                   # for viewing program manuals
+    # htop                                                                                       # for displaying CPU usage
+    # git                                                                                        # for downloading programs from github
+    # nano                                                                                       # for editing text
+    # alsa-card-profiles alsa-firmware alsa-lib alsa-utils pulseaudio-alsa pulseaudio pulsemixer # for audio to work
 genfstab -L /mnt > /mnt/etc/fstab
 
 # open the installed system
