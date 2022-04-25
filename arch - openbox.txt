@@ -61,7 +61,7 @@ startx
 Right click > Terminals > Xterm {
     obconf {
         Delete everything
-        Add [Super+S] > Add Execute > rofi -show run
+        Add [Super+X] > Add Execute > rofi -show run
         Add [Super+T] > Add Execute > sakura
         Save and exit
     }
