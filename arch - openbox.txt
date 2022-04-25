@@ -105,6 +105,9 @@ Restart # Exit openbox and Run shutdown now
 groups # should now include lp
 blueman-manager
 
+## audio equalizer
+yay -S jamesdsp # eg. https://www.reddit.com/r/headphones/comments/9o2f5n/psa_oratory1990s_list_of_eq_presets/
+
 ## image viewer / editor
 # sxiv, imv?
 yay -S gimp
