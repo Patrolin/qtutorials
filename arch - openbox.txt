@@ -58,8 +58,9 @@ yay -S xed
 yay -S bluez bluez-utils
 systemctl enable --now bluetooth.service
 usermod -aG lp <username>
-Log out and log back in
+Log out and log back in # Exit openbox, Run logout, Log in, Run startx
 groups # should now include lp
+yay -S blueman
 
 ## image viewer / editor
 # sxiv, imv?
