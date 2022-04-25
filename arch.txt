@@ -121,6 +121,9 @@ locale-gen
 nano /etc/locale.conf
     Add LANG=en_US.UTF-8
     [Ctrl+S] [Ctrl+X]
+nano /etc/vconsole.conf
+    Add KEYMAP=cz-qwerty
+    [Ctrl+S] [Ctrl+X]
 
 # set the hostname
 nano /etc/hostname
@@ -187,15 +190,6 @@ nmtui
     Input <network password>
 ping 8.8.8.8 # should succeed
     [Ctrl+C]
-
-# enable installing 32-bit programs ("multilib")
-nano /etc/pacman.conf
-    Uncomment {
-        [multilib]
-        Include = /etc/pacman.d/mirrorlist
-    }
-    [Ctrl+S] [Ctrl+X]
-pacman -Syu
 
 # add a new user # some programs will refuse to execute as admin
 useradd -m <user name>
