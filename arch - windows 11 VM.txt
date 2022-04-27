@@ -33,3 +33,5 @@ sudo nano /etc/mkinitcpio.conf
     # HOOKS=(...) should include modconf, eg. { HOOKS=(base udev autodetect modconf block filesystems keyboard fsck) }
 sudo mkinitcpio -P
 Reboot
+sudo dmesg | grep -i vfio
+# example output: ?
