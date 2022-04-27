@@ -56,11 +56,12 @@ sudo nano /etc/libvirt/qemu.conf {
     Uncomment nvram = ["/usr/share/OVMF/..."]
     Change every /OVMF to /OVMF/x64
 }
-sudo systemctl enable --now libvirtd.service
-sudo systemctl enable --now virtlogd.socket
-virsh net-autostart default
-virsh net-start default
+sudo systemctl enable libvirtd.service
+sudo systemctl enable virtlogd.socket
 
 sudo usermod -aG libvirt <username>
-Log out and log back in # Exit openbox and run logout
+Restart
 groups # should now include libvirt
+
+sudo virsh net-autostart default
+sudo virsh net-start default
