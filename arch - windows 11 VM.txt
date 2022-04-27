@@ -55,6 +55,7 @@ sudo pacman -S iptables dnsmasq libvirt ovmf qemu virt-manager
 sudo nano /etc/libvirt/qemu.conf {
     Uncomment nvram = ["/usr/share/OVMF/..."]
     Change every /OVMF to /OVMF/x64
+    Remove trailing comma
 }
 sudo systemctl enable libvirtd.service
 sudo systemctl enable virtlogd.socket
