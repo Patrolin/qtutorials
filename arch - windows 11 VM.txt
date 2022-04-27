@@ -31,5 +31,5 @@ sudo nano /boot/loader/entries/arch.conf
 sudo nano /etc/mkinitcpio.conf
     Add { vfio_pci vfio vfio_iommu_type1 vfio_virqfd } under MODULES=(...) before any graphics drivers (nouveau, radeon, amdgpu, nvidia ...)
     # HOOKS=(...) should include modconf, eg. { HOOKS=(base udev autodetect modconf block filesystems keyboard numlock fsck) }
-mkinitcpio -P
+sudo mkinitcpio -P
 Reboot
