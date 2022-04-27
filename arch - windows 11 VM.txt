@@ -3,7 +3,7 @@ TODO
 # https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10
 # https://dividebyzer0.gitlab.io/GPUpassthrough.html
 
-## enable Intel VT (CPU passthrough)
+### enable Intel VT (CPU passthrough)
 Enable Intel Virtualization Technology in BIOS
 sudo nano /boot/loader/entries/arch.conf
     Add { intel_iommu=on iommu=pt } under options
@@ -13,7 +13,8 @@ sudo dmesg | grep -i -e DMAR -e IOMMU
 # [    0.029985] DMAR: IOMMU enabled
 # [    5.250309] pci 0000:00:00.0: Adding to iommu group 0
 
-## isolate dGPU (use only inside a VM)
+
+### isolate dGPU (use only inside a VM)
 shopt -s nullglob
 for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
     echo "IOMMU Group ${g##*/}:"
@@ -28,11 +29,22 @@ done; # copy as one command, source: https://wiki.archlinux.org/title/PCI_passth
 
 sudo nano /boot/loader/entries/arch.conf
     Add { vfio-pci.ids=8086:1901,10de:1c8d } under options # use ids from the command above
+    # probably only need VGA/3D controllers?
 sudo nano /etc/mkinitcpio.conf
     Add { vfio_pci vfio vfio_iommu_type1 vfio_virqfd } under MODULES=(...) before any graphics drivers (nouveau, radeon, amdgpu, nvidia ...)
-    Move autodetect (which includes graphics drivers) after modconf under HOOKS=(...)
+    ? Move autodetect (which includes graphics drivers) after modconf under HOOKS=(...)
     # eg. { HOOKS=(base udev modconf autodetect block filesystems keyboard fsck) }
 sudo mkinitcpio -P
 Reboot
-sudo dmesg | grep -i vfio
-# example output: ?
+
+lspci -nnk -d 8086:1901
+# example output:
+# 00:01.0 PCI bridge [0604]: Intel Corporation 6th-10th Gen Core Processor PCIe Controller (x16) [8086:1901] (rev 05)
+#     Kernel driver in use: pcieport
+
+lspci -nnk -d 8086:1901
+# example output:
+# 01:00.0 3D controller [0302]: NVIDIA Corporation GP107M [GeForce GTX 1050 Mobile] [10de:1c8d] (rev a1)
+#     Subsystem: Dell Device [1028:07be]
+#     Kernel driver in use: vfio-pci
+#     Kernel modules: nouveau, nvidia_drm, nvidia
