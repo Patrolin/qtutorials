@@ -146,7 +146,7 @@ systemctl enable NetworkManager
         linux /vmlinuz-linux
         initrd /intel-ucode.img # optional
         initrd /initramfs-linux.img
-        options root=<Linux partition> rw
+        options root=<Linux partition> rw intel_iommu=on iommu=pt
     }
 ? nano /boot/loader/entries/arch-fallback.conf
     Write {
