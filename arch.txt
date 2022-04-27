@@ -124,13 +124,9 @@ nano /etc/vconsole.conf
     Add KEYMAP=cz-qwerty
     [Ctrl+S] [Ctrl+X]
 
-# set the hostname
+# set the hostname (for NetworkManager)
 nano /etc/hostname
-    Write {
-        127.0.0.1	localhost
-        ::1			localhost
-        127.0.1.1 	<computer name>.local <computer name>
-    }
+    Write <computer name>
     [Ctrl+S] [Ctrl+X]
 
 # enable starting NetworkManager on startup
