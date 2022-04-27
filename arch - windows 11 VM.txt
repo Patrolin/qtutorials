@@ -51,7 +51,7 @@ lspci -nnk -d 8086:1901
 
 
 ### install VM manager
-sudo pacman -S libvirt virt-manager ovmf qemu
+sudo pacman -S iptables dnsmasq libvirt ovmf qemu virt-manager
 sudo nano /etc/libvirt/qemu.conf {
     Uncomment nvram = ["/usr/share/OVMF/..."]
     Change every /OVMF to /OVMF/x64
