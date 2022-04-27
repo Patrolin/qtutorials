@@ -2,3 +2,30 @@ TODO
 # https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF
 # https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10
 # https://dividebyzer0.gitlab.io/GPUpassthrough.html
+
+## enable Intel VT (CPU passthrough)
+Enable Intel Virtualization Technology in BIOS
+sudo nano /boot/loader/entries/arch.conf
+  Add { intel_iommu=on iommu=pt } under options
+Reboot
+sudo dmesg | grep -i -e DMAR -e IOMMU
+# should include things like
+# [    0.029985] DMAR: IOMMU enabled
+# [    5.250309] pci 0000:00:00.0: Adding to iommu group 0
+
+## isolate dGPU (use only inside a VM)
+shopt -s nullglob
+for g in $(find /sys/kernel/iommu_groups/* -maxdepth 0 -type d | sort -V); do
+    echo "IOMMU Group ${g##*/}:"
+    for d in $g/devices/*; do
+        echo -e "\t$(lspci -nns ${d##*/})"
+    done;
+done; # copy as one command, source: https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Ensuring_that_the_groups_are_valid
+# example output:
+# IOMMU Group 1:
+# 00:01.0 PCI bridge [0604]: Intel Corporation 6th-10th Gen Core Processor PCIe Controller (x16) [8086:1901] (rev 05)
+# 01:00.0 3D controller [0302]: NVIDIA Corporation GP107M [GeForce GTX 1050 Mobile] [10de:1c8d] (rev a1)
+
+sudo nano /boot/loader/entries/arch.conf
+  Add { vfio-pci.ids=8086:1901,10de:1c8d } under options # use ids from the command above
+Reboot
