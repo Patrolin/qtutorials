@@ -146,7 +146,7 @@ systemctl enable NetworkManager
         linux /vmlinuz-linux
         initrd /intel-ucode.img # optional
         initrd /initramfs-linux.img
-        options root=<Linux partition> rw intel_iommu=on iommu=pt
+        options root=<Linux partition> rw
     }
 ? nano /boot/loader/entries/arch-fallback.conf
     Write {
@@ -162,9 +162,7 @@ ls /boot/loader/entries # list all OSes
 nano /boot/loader/loader.conf
     Write {
         default arch.conf
-        timeout 4
-        console-mode max
-        editor no
+        timeout 3
     }
 
 # set admin ("root") password
