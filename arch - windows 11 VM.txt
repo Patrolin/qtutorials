@@ -48,3 +48,19 @@ lspci -nnk -d 8086:1901
 #     Subsystem: Dell Device [1028:07be]
 #     Kernel driver in use: vfio-pci
 #     Kernel modules: nouveau, nvidia_drm, nvidia
+
+
+### install VM manager
+sudo pacman -S libvirt virt-manager ovmf qemu
+sudo nano /etc/libvirt/qemu.conf {
+    Uncomment nvram = ["/usr/share/OVMF/..."]
+    Change every /OVMF to /OVMF/x64
+}
+sudo systemctl enable --now libvirtd.service
+sudo systemctl enable --now virtlogd.socket
+virsh net-autostart default
+virsh net-start default
+
+sudo usermod -aG libvirt <username>
+Log out and log back in # Exit openbox and run logout
+groups # should now include libvirt
