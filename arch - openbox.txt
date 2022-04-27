@@ -63,6 +63,9 @@ Right click > Terminals > Xterm {
         Delete everything
         Add [Super+X] > Add Execute > rofi -show run
         Add [Super+T] > Add Execute > sakura
+        Add [Super+F] > Add MaximizeFull
+        Add W-Tab > Add NextWindow # says Invalid, but obkey is just dumb
+        Add S-W-Tab > Add PreviousWindow
         Save and exit
     }
     [Ctrl+D]
