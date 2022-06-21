@@ -1,4 +1,4 @@
-TODO
+TODO: all these sources are outdated and nothing makes sense
 # https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF
 # https://github.com/vanities/GPU-Passthrough-Arch-Linux-to-Windows10
 # https://dividebyzer0.gitlab.io/GPUpassthrough.html
