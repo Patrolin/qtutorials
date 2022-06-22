@@ -64,4 +64,5 @@ sudo virsh net-autostart default
 sudo virsh net-start default
 
 Install the VM somehow
-Install drivers from https://www.nvidia.com/cs-cz/geforce/geforce-experience/
+Install Spice guest drivers from https://www.spice-space.org/download.html
+Install Nvidia drivers from https://www.nvidia.com/cs-cz/geforce/geforce-experience/
