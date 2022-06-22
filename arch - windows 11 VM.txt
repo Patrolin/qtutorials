@@ -4,7 +4,7 @@ TODO: all these sources are outdated and nothing makes sense
 # https://dividebyzer0.gitlab.io/GPUpassthrough.html
 
 ### enable Intel VT (CPU passthrough)
-Enable Intel Virtualization Technology in BIOS
+Enable Intel Virtualization Technology and SVM in BIOS
 sudo nano /boot/loader/entries/arch.conf
     Add { intel_iommu=on iommu=pt } under options
 Reboot
