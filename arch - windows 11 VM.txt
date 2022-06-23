@@ -51,7 +51,7 @@ lspci -nnk -d 8086:1901
 
 
 ### install VM manager
-sudo pacman -S iptables-nft dnsmasq libvirt ovmf qemu virt-manager
+sudo pacman -S iptables-nft dnsmasq libvirt ovmf qemu virt-manager swtpm
 # nvram=... is obsolete and ignored
 sudo systemctl enable libvirtd.service
 sudo systemctl enable virtlogd.socket
