@@ -42,7 +42,7 @@ lspci -nnk -d 8086:1901
 # 00:01.0 PCI bridge [0604]: Intel Corporation 6th-10th Gen Core Processor PCIe Controller (x16) [8086:1901] (rev 05)
 #     Kernel driver in use: pcieport
 
-lspci -nnk -d 8086:1901
+lspci -nnk -d 10de:1c8d
 # example output:
 # 01:00.0 3D controller [0302]: NVIDIA Corporation GP107M [GeForce GTX 1050 Mobile] [10de:1c8d] (rev a1)
 #     Subsystem: Dell Device [1028:07be]
