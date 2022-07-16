@@ -33,6 +33,9 @@ sudo nano /boot/loader/entries/arch.conf
 sudo nano /etc/mkinitcpio.conf
     Add { vfio_pci vfio vfio_iommu_type1 vfio_virqfd } under MODULES=(...) before any graphics drivers (nouveau, radeon, amdgpu, nvidia ...)
     ? Move autodetect (which includes graphics drivers) after modconf under HOOKS=(...)
+
+
+# TODO: GPU resize bar?
     # eg. { HOOKS=(base udev modconf autodetect block filesystems keyboard fsck) }
 sudo mkinitcpio -P
 Reboot
