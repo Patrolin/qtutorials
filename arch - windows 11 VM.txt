@@ -143,6 +143,7 @@ virt-manager {
             Add all <gpu parts>
         }
         Add hardware > TPM
+	# i think you have to fuck with boot settings as well? and/or install without the CPU/GPU settings first and add them after you install Windows 11
     }
     Click begin installation
     Press any key to boot from CD
