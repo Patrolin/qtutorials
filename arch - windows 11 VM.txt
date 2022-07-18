@@ -62,7 +62,7 @@ sudo dmesg | grep -i vfio # check that vfio-pci successfully added the GPU
 [    5.006418] vfio_pci: add [10de:10f9[ffffffff:ffffffff]] class 0x000000/00000000
 ##
 
-? # install virt-manager
+# install virt-manager
 sudo pacman -S iptables-nft dnsmasq libvirt qemu-desktop virt-manager swtpm # ovmf {
     Say yes to removing iptables
 }
