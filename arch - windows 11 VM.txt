@@ -60,14 +60,14 @@ virt-manager {
     Create new VM
     Select Windows 11 ISO
     Leave memory, CPU as default
-    Set disk size
+    Set disk size to whatever
     Check "Customize configuration before install"
     Under Overview {
         Set chiset Q35
         Set firmware UEFI
     }
     Under Memory {
-        Set current allocation so whatever
+        Set current allocation to whatever
         Under XML {
             Replace "<domain type='kvm'>" with "<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>"
             Replace "<vcpu>2</vcpu>" with {
