@@ -114,20 +114,20 @@ virt-manager {
             Replace "<vcpu>2</vcpu>" with {
                 <vcpu placement="static">12</vcpu>
                 <cputune>
-                  <vcpupin vcpu="2" cpuset="2"/>
-                  <vcpupin vcpu="3" cpuset="10"/>
-                  <vcpupin vcpu="4" cpuset="3"/>
-                  <vcpupin vcpu="5" cpuset="11"/>
-                  <vcpupin vcpu="6" cpuset="4"/>
-                  <vcpupin vcpu="7" cpuset="12"/>
-                  <vcpupin vcpu="8" cpuset="5"/>
-                  <vcpupin vcpu="9" cpuset="13"/>
-                  <vcpupin vcpu="10" cpuset="6"/>
-                  <vcpupin vcpu="11" cpuset="14"/>
-                  <vcpupin vcpu="12" cpuset="7"/>
-                  <vcpupin vcpu="13" cpuset="15"/>
+                  <vcpupin vcpu="0" cpuset="2"/>
+                  <vcpupin vcpu="1" cpuset="10"/>
+                  <vcpupin vcpu="2" cpuset="3"/>
+                  <vcpupin vcpu="3" cpuset="11"/>
+                  <vcpupin vcpu="4" cpuset="4"/>
+                  <vcpupin vcpu="5" cpuset="12"/>
+                  <vcpupin vcpu="6" cpuset="5"/>
+                  <vcpupin vcpu="7" cpuset="13"/>
+                  <vcpupin vcpu="8" cpuset="6"/>
+                  <vcpupin vcpu="9" cpuset="14"/>
+                  <vcpupin vcpu="10" cpuset="7"/>
+                  <vcpupin vcpu="11" cpuset="15"/>
                 </cputune>
-            }
+            } # my motherboard doesn't support SVM with hyperthreading, so pretend every other line doesn't exist
             Under "<hyperv>" add "<vendor_id state='on' value='1234567890ab'/>"
             Under "<features>" add {
                 <kvm>
@@ -137,7 +137,7 @@ virt-manager {
             }
             Replace "<cpu mode='host-model'/>" with {
                 <cpu mode="host-passthrough" check="none">
-                    <topology sockets="1" dies="1" cores="6" threads="2"/>
+                    <topology sockets="1" dies="1" cores="6" threads="2"/> # again, pretend threads="1"
                 </cpu>
             }
             Under "<domain>" add {
