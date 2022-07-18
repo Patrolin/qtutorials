@@ -43,7 +43,7 @@ sudo nano /etc/modules-load.d/vfio-pci.conf {
     Add "vfio-pci"
 }
 
-dmesg | grep -E "DMAR|IOMMU # check that iommu is enabled
+dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
 ## example output
 [    0.000000] DMAR: IOMMU enabled
 ##
