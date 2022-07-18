@@ -160,9 +160,8 @@ virt-manager {
             Add all <gpu parts>
         }
         Add hardware > TPM
-        # i think you have to fuck with boot settings as well? and/or install without the CPU/GPU settings first and add them after you install Windows 11
     }
-    Click begin installation
+    Click begin installation # if it gets stuck, try installing without the CPU/GPU settings first and add them later after you install Windows 11
     Press any key to boot from CD
     Install Windows 11
     # GPU driver probably installs automatically, if not download the driver manually
