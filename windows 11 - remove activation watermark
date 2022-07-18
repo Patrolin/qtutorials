@@ -1,0 +1,8 @@
+regedit {
+  Computer\HKEY_CURRENT_USER\Control Panel\Desktop > Set PaintDesktopVersion to 1 # disable activation watermark and show os info instead (only on desktop)
+  Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\svsvc > Set Start to 4 # disable os info
+}
+Run cmd as admin {
+  gpupdate /force
+}
+Restart
