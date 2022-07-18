@@ -85,8 +85,8 @@ virt-manager {
     Set disk size to whatever
     Check "Customize configuration before install"
     Under Overview {
-        Set chiset Q35
-        Set firmware UEFI
+        Set chiset to Q35
+        Set firmware to UEFI secboot.fd
     }
     Under Memory {
         Set current allocation to whatever
