@@ -79,7 +79,7 @@ Download virtio-win.iso from https://fedorapeople.org/groups/virt/virtio-win/dir
 
 # create the VM
 virt-manager {
-    Click Create new VM
+    Click "Create a new virtual machine"
     Select Windows 11 ISO
     Leave memory and CPU as default
     Set disk size to whatever
