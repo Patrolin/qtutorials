@@ -5,8 +5,8 @@ Under BIOS {
         Enable Intel VT-d
     }
     On AMD CPU {
-        Enable AMD-V
-        Enable AMD-Vi
+        Enable AMD-V or SVM
+        Enable AMD-Vi or IOMMU
     }
 	? Set primary GPU = iGPU
 }
