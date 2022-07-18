@@ -48,6 +48,11 @@ sudo nano /etc/modprobe.d/vfio.conf {
 sudo nano /etc/modules-load.d/vfio-pci.conf {
     Add "vfio-pci"
 }
+sudo nano /etc/mkinitcpio.conf {
+    Under MODULES=(...) add "vfio_pci vfio vfio_iommu_type1 vfio_virqfd" before nvidia or other drivers
+    # example: MODULES=(vfio_pci vfio vfio_iommu_type1 vfio_virqfd)
+}
+sudo mkinitcpio -P # regenerate initramfs
 
 sudo dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
 ## example output
