@@ -43,21 +43,23 @@ sudo nano /etc/modules-load.d/vfio-pci.conf {
     Add "vfio-pci"
 }
 
-dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
+sudo dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
 ## example output
 [    0.000000] DMAR: IOMMU enabled
 ## or
 [    0.385044] AMD-Vi: AMD IOMMUv2 loaded and initialized
 ##
 
-dmesg | grep -i vfio # check that vfio-pci successfully added the GPU
+sudo dmesg | grep -i vfio # check that vfio-pci successfully added the GPU
 ## example output
 [    5.006414] vfio_pci: add [10de:1f03[ffffffff:ffffffff]] class 0x000000/00000000
 [    5.006418] vfio_pci: add [10de:10f9[ffffffff:ffffffff]] class 0x000000/00000000
 ##
 
 ? # install virt-manager
-sudo pacman -S iptables-nft dnsmasq libvirt qemu-desktop virt-manager swtpm # ovmf
+sudo pacman -S iptables-nft dnsmasq libvirt qemu-desktop virt-manager swtpm # ovmf {
+    Say yes to removing iptables
+}
 sudo systemctl enable libvirtd.service
 sudo systemctl enable virtlogd.socket
 sudo usermod -aG libvirt <username>
@@ -66,14 +68,14 @@ groups # should now include libvirt
 sudo virsh net-autostart default
 sudo virsh net-start default
 
-Download Windows 11 ISO
+Download Windows 11 ISO from https://www.microsoft.com/en-us/software-download/windows11 # broken on firefox for some reason
 Download virtio-win.iso from https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 
 # create the VM
 virt-manager {
-    Create new VM
+    Click Create new VM
     Select Windows 11 ISO
-    Leave memory, CPU as default
+    Leave memory and CPU as default
     Set disk size to whatever
     Check "Customize configuration before install"
     Under Overview {
