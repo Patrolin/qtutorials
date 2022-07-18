@@ -46,11 +46,14 @@ sudo nano /etc/modules-load.d/vfio-pci.conf {
 dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
 ## example output
 [    0.000000] DMAR: IOMMU enabled
+## or
+[    0.385044] AMD-Vi: AMD IOMMUv2 loaded and initialized
 ##
+
 dmesg | grep -i vfio # check that vfio-pci successfully added the GPU
 ## example output
-[    1.025031] vfio_pci: add [10de:1f03[ffffffff:ffffffff]]
-[    1.037038] vfio_pci: add [10de:10f9[ffffffff:ffffffff]]
+[    5.006414] vfio_pci: add [10de:1f03[ffffffff:ffffffff]] class 0x000000/00000000
+[    5.006418] vfio_pci: add [10de:10f9[ffffffff:ffffffff]] class 0x000000/00000000
 ##
 
 ? # install virt-manager
