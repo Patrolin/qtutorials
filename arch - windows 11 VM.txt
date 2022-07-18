@@ -53,6 +53,7 @@ sudo nano /etc/mkinitcpio.conf {
     # example: MODULES=(vfio_pci vfio vfio_iommu_type1 vfio_virqfd)
 }
 sudo mkinitcpio -P # regenerate initramfs
+Restart
 
 sudo dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
 ## example output
@@ -65,6 +66,11 @@ sudo dmesg | grep -i vfio # check that vfio-pci successfully added the GPU
 ## example output
 [    5.006414] vfio_pci: add [10de:1f03[ffffffff:ffffffff]] class 0x000000/00000000
 [    5.006418] vfio_pci: add [10de:10f9[ffffffff:ffffffff]] class 0x000000/00000000
+##
+
+lspci -nnk -d <gpu-id> # check that vfio isolated the GPU
+## example output
+TODO
 ##
 
 # install virt-manager
