@@ -73,6 +73,7 @@ Restart
 groups # should now include libvirt
 sudo virsh net-autostart default
 sudo virsh net-start default
+Restart # just in case
 
 Download Windows 11 ISO from https://www.microsoft.com/en-us/software-download/windows11 # broken on firefox for some reason
 Download virtio-win.iso from https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
