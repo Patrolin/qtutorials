@@ -57,7 +57,7 @@ dmesg | grep -i vfio # check that vfio-pci successfully added the GPU
 ##
 
 ? # install virt-manager
-sudo pacman -S iptables-nft dnsmasq libvirt qemu virt-manager swtpm # ovmf
+sudo pacman -S iptables-nft dnsmasq libvirt qemu-desktop virt-manager swtpm # ovmf
 sudo systemctl enable libvirtd.service
 sudo systemctl enable virtlogd.socket
 sudo usermod -aG libvirt <username>
