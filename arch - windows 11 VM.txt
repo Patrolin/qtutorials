@@ -1,3 +1,4 @@
+# isolate CPU cores and GPU
 Under BIOS {
     On Intel CPU {
         Enable Intel VT-x
@@ -54,6 +55,7 @@ sudo virsh net-start default
 Download Windows 11 ISO
 Download virtio-win.iso from https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 
+# create the VM
 virt-manager {
     Create new VM
     Select Windows 11 ISO
