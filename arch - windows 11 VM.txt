@@ -93,12 +93,22 @@ virt-manager {
         Under XML {
             Replace "<domain type='kvm'>" with "<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>"
             Replace "<vcpu>2</vcpu>" with {
-                <vcpu placement="static">4</vcpu>
+                <vcpu placement="static">14</vcpu>
                 <cputune>
-                    <vcpupin vcpu="0" cpuset="1"/>
-                    <vcpupin vcpu="1" cpuset="7"/>
-                    <vcpupin vcpu="2" cpuset="2"/>
-                    <vcpupin vcpu="3" cpuset="8"/>
+		    <vcpupin vcpu="0" cpuset="1"/>
+		    <vcpupin vcpu="1" cpuset="9"/>
+		    <vcpupin vcpu="2" cpuset="2"/>
+		    <vcpupin vcpu="3" cpuset="10"/>
+		    <vcpupin vcpu="4" cpuset="3"/>
+		    <vcpupin vcpu="5" cpuset="11"/>
+		    <vcpupin vcpu="6" cpuset="4"/>
+		    <vcpupin vcpu="7" cpuset="12"/>
+		    <vcpupin vcpu="8" cpuset="5"/>
+		    <vcpupin vcpu="9" cpuset="13"/>
+		    <vcpupin vcpu="10" cpuset="6"/>
+		    <vcpupin vcpu="11" cpuset="14"/>
+		    <vcpupin vcpu="12" cpuset="7"/>
+		    <vcpupin vcpu="13" cpuset="15"/>
                 </cputune>
             }
             Under "<hyperv>" add "<vendor_id state='on' value='1234567890ab'/>"
@@ -123,12 +133,16 @@ virt-manager {
             }
             Click apply
         }
-        Add virtio-win.iso CD?
-        Remove tablet
-        Under display spice {
-            Add <gpu parts>
+        Add hardware > Storage {
+            Set Device type to CDROM device
+            Select virtio-win.iso
+            Click Finish
         }
-        ? Add TPM module
+        Remove tablet
+        Add hardware > PCI Host Device {
+            Add all <gpu parts>
+        }
+        Add hardware > TPM
     }
     Click begin installation
     Press any key to boot from CD
