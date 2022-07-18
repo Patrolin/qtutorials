@@ -112,5 +112,5 @@ virt-manager {
     Press any key to boot from CD
     Install Windows 11
     # GPU driver probably installs automatically, if not download the driver manually
-    Install virtio-win-??-x64.msi from virtio CD, don't install guest tools otherwise the VM will stop capturing the mouse
+    Install virtio-win-gt-x64.msi from virtio CD, don't install guest tools otherwise the VM will stop capturing the mouse
 }
