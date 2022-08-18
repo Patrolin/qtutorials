@@ -5,4 +5,5 @@ Run Visual Studio Installer
   Under Individual components
     Add C++ Clang Compiler for Windows (...)
     Add C++ Clang-cl for ... build tools
+  # total: 4.31 GB
 Add "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\Llvm\x64\bin" to path
