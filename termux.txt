@@ -10,5 +10,7 @@ pkg install python
 pip install wheel
 pip install -U pip
 
+termux-setup-storage
+
 # pip install yt-dlp
 # pip install ffmpeg
