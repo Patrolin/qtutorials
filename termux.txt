@@ -4,8 +4,6 @@ pkg upgrade
   ? Say y to everything
 pkg upgrade
 
-pkg install wget
-
 pkg install python
 pip install wheel
 pip install -U pip
