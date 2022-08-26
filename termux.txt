@@ -11,4 +11,4 @@ pip install wheel
 pip install -U pip
 
 # pip install yt-dlp
-# pip install pytube
+# pip install ffmpeg
