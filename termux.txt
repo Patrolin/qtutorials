@@ -11,6 +11,7 @@ pip install wheel
 pip install -U pip
 
 termux-setup-storage
+Settings > Apps > Termux > Enable Appear on top # for termux-url-opener
 
 # pip install yt-dlp
 # pip install ffmpeg
