@@ -138,12 +138,14 @@ virt-manager {
             Replace "<cpu mode='host-model'/>" with {
                 <cpu mode="host-passthrough" check="none">
                     <topology sockets="1" dies="1" cores="6" threads="2"/> # again, pretend threads="1"
+		    #<cache mode="passthrough" />
+		    <feature policy="disable" name="hypervisor" />
                 </cpu>
             }
             Under "<domain>" add {
                 <qemu:commandline>
                     <qemu:arg value='-cpu'/>
-                    <qemu:arg value='host,kvm=off,hv_vendor_id=null'/>
+                    <qemu:arg value='host,-hypervisor,kvm=off,hv_vendor_id=null'/>
                     <qemu:arg value='-machine'/>
                     <qemu:arg value='q35,kernel_irqchip=on'/>
                 </qemu:commandline>
