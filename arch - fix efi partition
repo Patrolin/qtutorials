@@ -1,0 +1,8 @@
+Launch <Arch iso>
+lsblk -o PTTYPE,PATH,SIZE,PARTTYPENAME,FSTYPE,FSVER,MOUNTPOINT # this command is your friend
+mount <Linux partition> /mnt
+mount <EFI partition> /mnt/boot
+arch-chroot /mnt
+bootctl install
+[Ctrl+D]
+shutdown now
