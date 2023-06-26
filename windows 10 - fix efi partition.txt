@@ -6,7 +6,7 @@ diskpart
     # remove corrupted EFI partition
     list disk # we will assume <disk number> = 0
     sel disk <disk number>
-    list partition # we will assume <partition number> = 2
+    list partition # we will assume <partition number> = 2    # if this doesn't exist, try the GUI "fix startup problems"
     sel partition <partition number>
     delete partition override # force deletion of system-type partition
     list partition
