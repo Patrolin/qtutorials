@@ -133,10 +133,10 @@ nano /etc/hostname
 systemctl enable NetworkManager
 
 # overwrite EFI partition with systemd-boot
-? bootctl install
+bootctl install
 
 # create linux boot settings
-? nano /boot/loader/entries/arch.conf
+nano /boot/loader/entries/arch.conf
     Write {
         title Arch linux
         linux /vmlinuz-linux
@@ -144,7 +144,7 @@ systemctl enable NetworkManager
         initrd /initramfs-linux.img
         options root=<Linux partition> rw
     }
-? nano /boot/loader/entries/arch-fallback.conf
+nano /boot/loader/entries/arch-fallback.conf
     Write {
         title Arch Linux (fallback)
         linux /vmlinuz-linux
