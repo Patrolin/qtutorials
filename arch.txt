@@ -47,11 +47,10 @@ On EFI system {
     fdisk /dev/sda
         If no other OSes are installed {
             g # format drive to GPT
+            # make an EFI partition, we will assume <EFI partition> = "/dev/sda1" (if you are unsure, check lsblk)
+            n [Enter] [Enter] +1G
+                t 1
         }
-
-        # make an EFI partition, we will assume <EFI partition> = "/dev/sda1" (if you are unsure, check lsblk)
-        n [Enter] [Enter] +1G
-            t 1
 
         # make a Linux partition, we will assume <Linux partition> = "/dev/sda2"
         n [Enter] [Enter] [Enter]
