@@ -64,10 +64,9 @@ On EFI system {
 } else {
     Find another tutorial
 }
-# mount the Linux partition at /mnt
-mount <Linux partition> /mnt
 
-# mount the EFI partition at /mnt/boot
+# mount the partitions
+mount <Linux partition> /mnt
 mkdir /mnt/boot
 mount <EFI partition> /mnt/boot
 
