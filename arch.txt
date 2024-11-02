@@ -169,7 +169,7 @@ ls /boot/loader/entries # list all OSes
 nano /boot/loader/loader.conf
     Write {
         default arch.conf
-        timeout 3
+        timeout 5
     }
 
 # set admin ("root") password
