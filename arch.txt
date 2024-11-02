@@ -28,7 +28,7 @@ On VM {
 
 ### install
 Boot into Arch iso
-lsblk -o PTTYPE,PATH,SIZE,PARTTYPENAME,FSTYPE,FSVER,MOUNTPOINT # this command is your friend
+lsblk -o NAME,PTTYPE,PATH,SIZE,PARTTYPENAME,FSTYPE,FSVER,MOUNTPOINT # this command is your friend
 On EFI system {
     ls /sys/firmware/efi # this should show an /efivars folder
     fdisk /dev/sda
