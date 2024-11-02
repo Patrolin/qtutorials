@@ -1,4 +1,20 @@
-### setup
+### setup windows
+Install Windows 11 {
+    Boot into Windows USB
+    Press Shift+F10 to open admin console
+    diskpart {
+       list disk
+       select disk 0
+       create partition size=1024
+       format quick fs=fat32
+    }
+    Continue installing as normal
+}
+Open control panel > Hardware and audio > Power settings > Disable fast startup and hibernation
+regedit
+    Add DWORD=1 at HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\RealTimeIsUniversal
+
+### setup linux
 Download <Arch iso> from https://archlinux.org/download/
 On Windows {
     Download portable <Rufus exe> from https://rufus.ie/en/
@@ -8,9 +24,6 @@ On Windows {
         Select the <Arch iso>
         Click "START" and wait for it to finish
         Click "CLOSE"
-    Open power settings > Disable fast startup and hibernation
-    regedit
-        Add DWORD=1 at HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\RealTimeIsUniversal
 } On Linux {
     lsblk # find <USB drive>, for example: <USB drive> = "/dev/sdc"
     mkfs.vfat <USB drive> # format USB drive
