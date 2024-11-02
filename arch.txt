@@ -10,7 +10,7 @@ Install Windows 11 {
     }
     Continue installing as normal
 }
-Open control panel > Hardware and audio > Power settings > Disable fast startup and hibernation
+Open control panel > Hardware and Sound > Power settings > Change what the power buttons do > Disable fast startup and hibernation
 regedit
     Add DWORD=1 at HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\RealTimeIsUniversal
 
