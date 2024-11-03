@@ -1,4 +1,4 @@
-# isolate CPU cores
+# enable CPU/GPU isolation
 Under BIOS {
     On Intel CPU {
         Enable Intel VT-x
@@ -11,6 +11,8 @@ Under BIOS {
     ? Set primary GPU = iGPU
 }
 
+# get cpu topology
+# TODO: find a new way to get cpu topology, this one no longer works :(
 cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list | sort | uniq # get CPU topology
 ## example output
 0,8
@@ -23,6 +25,7 @@ cat /sys/devices/system/cpu/cpu*/topology/thread_siblings_list | sort | uniq # g
 7,15
 ##
 
+# isolate cpu cores
 On Intel {
     Add kernel options "intel_iommu=on iommu=pt isolcpus=2,10,3,11,4,12,5,13,6,14,7,15"
 }
@@ -30,10 +33,21 @@ On AMD {
     Add kernel options "amd_iommu=on iommu=pt isolcpus=2,10,3,11,4,12,5,13,6,14,7,15"
 }
 Restart
+
+# check that cpu isolation worked
 cat /sys/devices/system/cpu/isolated # check if we isolated CPUs
 ## example output
 2-7,10-15
 ##
+
+# alternate check that cpu isolation worked
+sudo dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
+## example output
+[    0.000000] DMAR: IOMMU enabled
+## or
+[    0.385044] AMD-Vi: AMD IOMMUv2 loaded and initialized
+##
+
 
 # find <gpu ids>
 lspci -nn # for example: <gpu ids>=10de:1f03,10de:10f9
@@ -45,17 +59,9 @@ lspci -nn # for example: <gpu ids>=10de:1f03,10de:10f9
 
 # isolate GPU
 Follow latest modprobe.d guide at https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Isolating_the_GPU
-
-# check if cpu isolation worked
 Restart
-sudo dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
-## example output
-[    0.000000] DMAR: IOMMU enabled
-## or
-[    0.385044] AMD-Vi: AMD IOMMUv2 loaded and initialized
-##
 
-# check tha gpu isolation worked
+# check that gpu isolation worked
 sudo dmesg | grep -i vfio
 ## example output
 [    5.006414] vfio_pci: add [10de:1f03[ffffffff:ffffffff]] class 0x000000/00000000
