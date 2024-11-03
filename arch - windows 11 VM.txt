@@ -162,6 +162,7 @@ virt-manager {
             Add all <gpu parts>
         }
         Add hardware > TPM
+        Remove tablet # allow capturing mouse
     }
     Click begin installation # if it gets stuck, try installing without the CPU/GPU settings first and add them later after you install Windows 11
     Press any key to boot from CD
