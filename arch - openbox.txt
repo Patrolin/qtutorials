@@ -19,15 +19,13 @@ cp /etc/X11/xinit/xinitrc ~/.xinitrc
 nano ~/.xinitrc {
     Delete last 5 lines (twm..)
     Add {
+        setxkbmap cz qwerty &
         picom &
         nitrogen --restore &
         tint2 &
         exec openbox
     }
 }
-
-setxkbmap cz qwerty
-localectl # should now show the same keymap twice (once for console, once for xorg)
 
 ## settings
 yay -S obconf lxinput obkey pavucontrol
@@ -53,13 +51,15 @@ yay -S xed
 
 
 ### post-install
+mkdir -p ~/.config/openbox
+$ cp -a /etc/xdg/openbox ~/.config/
 
 ## start window manager
 startx
 
 ## setup keyboard shortcuts
 Right click > Terminals > Xterm {
-    obconf {
+    obkey {
         Delete everything
         Add [Super+X] > Add Execute > rofi -show run
         Add [Super+T] > Add Execute > sakura
