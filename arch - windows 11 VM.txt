@@ -82,9 +82,8 @@ lspci -nnk -d <gpu id>
 ##
 
 # install virt-manager
-sudo pacman -S iptables-nft dnsmasq libvirt qemu-desktop virt-manager swtpm # ovmf {
-    Say yes to removing iptables
-}
+Follow guide at https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Setting_up_an_OVMF-based_guest_virtual_machine
+sudo pacman swtpm
 sudo systemctl enable libvirtd.service
 sudo systemctl enable virtlogd.socket
 sudo usermod -aG libvirt <username>
@@ -141,6 +140,7 @@ virt-manager {
                     <topology sockets="1" dies="1" cores="6" threads="2"/> # again, pretend threads="1"
 		    #<cache mode="passthrough" />
 		    <feature policy="disable" name="hypervisor" />
+                    <feature policy="require" name="popcnt" />
                 </cpu>
             }
             Under "<domain>" add {
@@ -158,7 +158,6 @@ virt-manager {
             Select virtio-win.iso
             Click Finish
         }
-        Remove tablet
         Add hardware > PCI Host Device {
             Add all <gpu parts>
         }
