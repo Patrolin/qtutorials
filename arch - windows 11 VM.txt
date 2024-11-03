@@ -35,26 +35,19 @@ cat /sys/devices/system/cpu/isolated # check if we isolated CPUs
 2-7,10-15
 ##
 
-# isolate GPU
-lspci -nn # find <gpu parts> and <gpu ids>
+# find <gpu ids>
+lspci -nn # for example: <gpu ids>=10de:1f03,10de:10f9
+
 ## example output
 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation TU106 [GeForce RTX 2060 12GB] [10de:1f03] (rev a1)
 01:00.1 Audio device [0403]: NVIDIA Corporation TU106 High Definition Audio Controller [10de:10f9] (rev a1)
 ##
 
-sudo nano /etc/modprobe.d/vfio.conf {
-    Add "options vfio-pci ids=<gpu ids>" # eg. <gpu ids>=10de:1f03,10de:10f9
-}
-sudo nano /etc/modules-load.d/vfio-pci.conf {
-    Add "vfio-pci"
-}
-sudo nano /etc/mkinitcpio.conf {
-    Under MODULES=(...) add "vfio_pci vfio vfio_iommu_type1 vfio_virqfd" before nvidia or other drivers
-    # example: MODULES=(vfio_pci vfio vfio_iommu_type1 vfio_virqfd)
-}
-sudo mkinitcpio -P # regenerate initramfs
-Restart
+# isolate GPU
+Follow latest modprobe.d guide at https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Isolating_the_GPU
 
+# check if cpu isolation worked
+Restart
 sudo dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
 ## example output
 [    0.000000] DMAR: IOMMU enabled
@@ -62,13 +55,15 @@ sudo dmesg | grep -E "DMAR|IOMMU" # check that iommu is enabled
 [    0.385044] AMD-Vi: AMD IOMMUv2 loaded and initialized
 ##
 
-sudo dmesg | grep -i vfio # check that vfio-pci successfully added the GPU
+# check tha gpu isolation worked
+sudo dmesg | grep -i vfio
 ## example output
 [    5.006414] vfio_pci: add [10de:1f03[ffffffff:ffffffff]] class 0x000000/00000000
 [    5.006418] vfio_pci: add [10de:10f9[ffffffff:ffffffff]] class 0x000000/00000000
 ##
 
-lspci -nnk -d <gpu id> # check that vfio isolated the GPU
+# alternate check that gpu isolation worked
+lspci -nnk -d <gpu id>
 ## example bad output
 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation TU106 [GeForce RTX 2060 12GB] [10de:1f03] (rev a1)
 	Subsystem: Micro-Star International Co., Ltd. [MSI] Device [1462:c757]
