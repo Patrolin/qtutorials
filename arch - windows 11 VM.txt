@@ -86,7 +86,7 @@ Follow guide at https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Settin
 sudo pacman swtpm
 sudo systemctl enable libvirtd.service
 sudo systemctl enable virtlogd.socket
-sudo usermod -aG libvirt <username>
+sudo usermod -aG libvirt,kvm <username>
 Restart
 groups # should now include libvirt
 sudo virsh net-autostart default
@@ -114,20 +114,14 @@ virt-manager {
             Replace "<vcpu>2</vcpu>" with {
                 <vcpu placement="static">12</vcpu>
                 <cputune>
-                  <vcpupin vcpu="0" cpuset="2"/>
-                  <vcpupin vcpu="1" cpuset="10"/>
-                  <vcpupin vcpu="2" cpuset="3"/>
-                  <vcpupin vcpu="3" cpuset="11"/>
-                  <vcpupin vcpu="4" cpuset="4"/>
-                  <vcpupin vcpu="5" cpuset="12"/>
-                  <vcpupin vcpu="6" cpuset="5"/>
-                  <vcpupin vcpu="7" cpuset="13"/>
-                  <vcpupin vcpu="8" cpuset="6"/>
-                  <vcpupin vcpu="9" cpuset="14"/>
-                  <vcpupin vcpu="10" cpuset="7"/>
-                  <vcpupin vcpu="11" cpuset="15"/>
+                  <vcpupin vcpu="0" cpuset="2,10"/>
+                  <vcpupin vcpu="1" cpuset="3,11"/>
+                  <vcpupin vcpu="2" cpuset="4,12"/>
+                  <vcpupin vcpu="3" cpuset="5,13"/>
+                  <vcpupin vcpu="4" cpuset="6,14"/>
+                  <vcpupin vcpu="5" cpuset="7,15"/>
                 </cputune>
-            } # my motherboard doesn't support SVM with hyperthreading, so pretend every other line doesn't exist
+            }
             Under "<hyperv>" add "<vendor_id state='on' value='1234567890ab'/>"
             Under "<features>" add {
                 <kvm>
@@ -137,8 +131,8 @@ virt-manager {
             }
             Replace "<cpu mode='host-model'/>" with {
                 <cpu mode="host-passthrough" check="none">
-                    <topology sockets="1" dies="1" cores="6" threads="2"/> # again, pretend threads="1"
-		    #<cache mode="passthrough" />
+                    <topology sockets="1" dies="1" cores="6" threads="2"/>
+		    <cache mode="passthrough" />
 		    <feature policy="disable" name="hypervisor" />
                     <feature policy="require" name="popcnt" />
                 </cpu>
@@ -169,4 +163,21 @@ virt-manager {
     Install Windows 11
     # GPU driver probably installs automatically, if not download the driver manually
     Install virtio-win-gt-x64.msi from virtio CD, don't install guest tools otherwise the VM will stop capturing the mouse
+}
+
+If audio doesn't work {
+    sudo nano /etc/libvirt/qemu.conf {
+      user = "work"
+      group = "kvm"
+    }
+    Replace <sound> and <audio> with {
+      <sound model="ich9">
+        <audio id="1"/>
+        <address type="pci" domain="0x0000" bus="0x00" slot="0x1b" function="0x0"/>
+      </sound>
+      <audio id="1" type="pulseaudio" serverName="/run/user/1000/pulse/native">
+        <input mixingEngine="no"/>
+        <output mixingEngine="no"/>
+      </audio>
+    }
 }
