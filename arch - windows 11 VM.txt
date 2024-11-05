@@ -111,17 +111,28 @@ virt-manager {
         Set current allocation to whatever
         Under XML {
             Replace "<domain type='kvm'>" with "<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>"
-            Replace "<vcpu>2</vcpu>" with {
-                <vcpu placement="static">12</vcpu>
-                <cputune>
-                  <vcpupin vcpu="0" cpuset="2,10"/>
-                  <vcpupin vcpu="1" cpuset="3,11"/>
-                  <vcpupin vcpu="2" cpuset="4,12"/>
-                  <vcpupin vcpu="3" cpuset="5,13"/>
-                  <vcpupin vcpu="4" cpuset="6,14"/>
-                  <vcpupin vcpu="5" cpuset="7,15"/>
-                </cputune>
+            Replace "<vcpu>...</vcpu>" and "<cputune>...</cputune>" with {
+		<vcpu placement="static">12</vcpu>
+		<iothreads>2</iothreads>
+		<cputune>
+		    <vcpupin vcpu="0" cpuset="2"/>
+		    <vcpupin vcpu="1" cpuset="10"/>
+		    <vcpupin vcpu="2" cpuset="3"/>
+		    <vcpupin vcpu="3" cpuset="11"/>
+		    <vcpupin vcpu="4" cpuset="4"/>
+		    <vcpupin vcpu="5" cpuset="12"/>
+		    <vcpupin vcpu="6" cpuset="5"/>
+		    <vcpupin vcpu="7" cpuset="13"/>
+		    <vcpupin vcpu="8" cpuset="6"/>
+		    <vcpupin vcpu="9" cpuset="14"/>
+		    <vcpupin vcpu="10" cpuset="7"/>
+		    <vcpupin vcpu="11" cpuset="15"/>
+		    <emulatorpin cpuset="2-7,10-15"/>
+		    <iothreadpin iothread="1" cpuset="1"/>
+		    <iothreadpin iothread="2" cpuset="9"/>
+		</cputune>
             }
+            Under "<driver name='qemu' type='qcow2' discard='unmap'/> add "io='threads'"
             Under "<hyperv>" add "<vendor_id state='on' value='1234567890ab'/>"
             Under "<features>" add {
                 <kvm>
@@ -135,6 +146,7 @@ virt-manager {
 		    <cache mode="passthrough" />
 		    <feature policy="disable" name="hypervisor" />
                     <feature policy="require" name="popcnt" />
+                    <feature policy="require" name="topoext"/>
                 </cpu>
             }
             Under "<domain>" add {
