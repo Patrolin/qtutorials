@@ -135,9 +135,9 @@ virt-manager {
 		    <vcpupin vcpu="9" cpuset="14"/>
 		    <vcpupin vcpu="10" cpuset="7"/>
 		    <vcpupin vcpu="11" cpuset="15"/>
-		    <emulatorpin cpuset="2-7,10-15"/>
-		    <iothreadpin iothread="1" cpuset="1"/>
-		    <iothreadpin iothread="2" cpuset="9"/>
+		    <emulatorpin cpuset="0-1"/>
+		    <iothreadpin iothread="1" cpuset="8-9"/>
+		    <iothreadpin iothread="2" cpuset="8-9"/>
 		</cputune>
             }
             Under "<driver name='qemu' type='qcow2' discard='unmap'/> add "io='threads'"
@@ -159,8 +159,6 @@ virt-manager {
             }
             Under "<domain>" add {
                 <qemu:commandline>
-                    <qemu:arg value='-cpu'/>
-                    <qemu:arg value='host,-hypervisor,kvm=off,hv_vendor_id=null'/>
                     <qemu:arg value='-machine'/>
                     <qemu:arg value='q35,kernel_irqchip=on'/>
                 </qemu:commandline>
