@@ -80,13 +80,13 @@ sudo dmesg | grep -i vfio
 lspci -nnk -d <gpu id>
 ## example bad output
 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation TU106 [GeForce RTX 2060 12GB] [10de:1f03] (rev a1)
-	Subsystem: Micro-Star International Co., Ltd. [MSI] Device [1462:c757]
-	Kernel modules: nouveau, nvidia_drm, nvidia
+    Subsystem: Micro-Star International Co., Ltd. [MSI] Device [1462:c757]
+    Kernel modules: nouveau, nvidia_drm, nvidia
 ## example good output
 01:00.0 VGA compatible controller [0300]: NVIDIA Corporation TU106 [GeForce RTX 2060 12GB] [10de:1f03] (rev a1)
-	Subsystem: Micro-Star International Co., Ltd. [MSI] Device [1462:c757]
-	Kernel driver in use: vfio-pci
-	Kernel modules: nouveau, nvidia_drm, nvidia
+    Subsystem: Micro-Star International Co., Ltd. [MSI] Device [1462:c757]
+    Kernel driver in use: vfio-pci
+    Kernel modules: nouveau, nvidia_drm, nvidia
 ##
 
 # install virt-manager
@@ -120,27 +120,26 @@ virt-manager {
         Under XML {
             Replace "<domain type='kvm'>" with "<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>"
             Replace "<vcpu>...</vcpu>" and "<cputune>...</cputune>" with {
-		<vcpu placement="static">12</vcpu>
-		<iothreads>2</iothreads>
-		<cputune>
-		    <vcpupin vcpu="0" cpuset="2"/>
-		    <vcpupin vcpu="1" cpuset="10"/>
-		    <vcpupin vcpu="2" cpuset="3"/>
-		    <vcpupin vcpu="3" cpuset="11"/>
-		    <vcpupin vcpu="4" cpuset="4"/>
-		    <vcpupin vcpu="5" cpuset="12"/>
-		    <vcpupin vcpu="6" cpuset="5"/>
-		    <vcpupin vcpu="7" cpuset="13"/>
-		    <vcpupin vcpu="8" cpuset="6"/>
-		    <vcpupin vcpu="9" cpuset="14"/>
-		    <vcpupin vcpu="10" cpuset="7"/>
-		    <vcpupin vcpu="11" cpuset="15"/>
-		    <emulatorpin cpuset="0-1"/>
-		    <iothreadpin iothread="1" cpuset="8-9"/>
-		    <iothreadpin iothread="2" cpuset="8-9"/>
-		</cputune>
+                <vcpu placement="static">12</vcpu>
+                <iothreads>2</iothreads>
+                <cputune>
+                    <vcpupin vcpu="0" cpuset="2"/>
+                    <vcpupin vcpu="1" cpuset="10"/>
+                    <vcpupin vcpu="2" cpuset="3"/>
+                    <vcpupin vcpu="3" cpuset="11"/>
+                    <vcpupin vcpu="4" cpuset="4"/>
+                    <vcpupin vcpu="5" cpuset="12"/>
+                    <vcpupin vcpu="6" cpuset="5"/>
+                    <vcpupin vcpu="7" cpuset="13"/>
+                    <vcpupin vcpu="8" cpuset="6"/>
+                    <vcpupin vcpu="9" cpuset="14"/>
+                    <vcpupin vcpu="10" cpuset="7"/>
+                    <vcpupin vcpu="11" cpuset="15"/>
+                    # do NOT use <emulatorpin>, it just leads to worse performance in practice
+                    <iothreadpin iothread="1" cpuset="8-9"/>
+                    <iothreadpin iothread="2" cpuset="8-9"/>
+                </cputune>
             }
-            Under "<driver name='qemu' type='qcow2' discard='unmap'/> add "io='threads'"
             Under "<hyperv>" add "<vendor_id state='on' value='1234567890ab'/>"
             Under "<features>" add {
                 <kvm>
@@ -151,10 +150,9 @@ virt-manager {
             Replace "<cpu mode='host-model'/>" with {
                 <cpu mode="host-passthrough" check="none">
                     <topology sockets="1" dies="1" cores="6" threads="2"/>
-		    <cache mode="passthrough" />
-		    <feature policy="disable" name="hypervisor" />
-                    <feature policy="require" name="popcnt" />
-                    <feature policy="require" name="topoext"/>
+                    <cache mode="passthrough" />
+                    <feature policy="disable" name="hypervisor" />
+                    <feature policy="require" name="topoext"/> # required for hyperthreads
                 </cpu>
             }
             Under "<domain>" add {
