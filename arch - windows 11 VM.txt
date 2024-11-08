@@ -140,7 +140,6 @@ virt-manager {
                     <iothreadpin iothread="2" cpuset="8-9"/>
                 </cputune>
             }
-            Under "<hyperv>" add "<vendor_id state='on' value='1234567890ab'/>"
             Under "<features>" add {
                 <kvm>
                     <hidden state='on'/>
