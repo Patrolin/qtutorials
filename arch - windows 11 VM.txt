@@ -102,7 +102,7 @@ sudo virsh net-start default
 Restart # just in case
 
 Download Windows 11 ISO from https://www.microsoft.com/en-us/software-download/windows11 # broken on firefox for some reason
-Download virtio-win.iso from https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
+Download latest virtio-win.iso from https://fedora-virt.repo.nfrance.com/virtio-win/direct-downloads/archive-virtio/
 
 # create the VM
 virt-manager {
@@ -113,7 +113,7 @@ virt-manager {
     Check "Customize configuration before install"
     Under Overview {
         Set chiset to Q35
-        Set firmware to UEFI secboot.fd
+        Set firmware to UEFI
     }
     Under Memory {
         Set current allocation to whatever
@@ -156,12 +156,6 @@ virt-manager {
                     <feature policy="require" name="topoext"/> # required for hyperthreads
                 </cpu>
             }
-            Under "<domain>" add {
-                <qemu:commandline>
-                    <qemu:arg value='-machine'/>
-                    <qemu:arg value='q35,kernel_irqchip=on'/>
-                </qemu:commandline>
-            }
             Click apply
         }
         Add hardware > Storage {
@@ -173,14 +167,16 @@ virt-manager {
             Add all <gpu parts>
         }
         Add hardware > TPM
-        Remove tablet # allow capturing mouse
     }
-    Click begin installation # if it gets stuck, try installing without the CPU/GPU settings first and add them later after you install Windows 11
-    Press any key to boot from CD
-    Install Windows 11
-    Disable Windows defender Core isolation # otherwise some games (Genshin) will crash randomly
-    # GPU driver probably installs automatically, if not download the driver manually
-    Install virtio-win-gt-x64.msi from virtio CD, don't install guest tools otherwise the VM will stop capturing the mouse
+}
+Click begin installation # if it gets stuck, try installing without the CPU/GPU settings first and add them later after you install Windows 11
+Press any key to boot from CD
+Install Windows 11
+Disable Windows defender Core isolation # otherwise some games (Genshin) will crash randomly
+# GPU driver probably installs automatically, if not download the driver manually
+Install virtio-win-gt-x64.msi from virtio CD, don't install guest tools otherwise the VM will stop capturing the mouse
+In VM settings {
+    Remove tablet # allow capturing mouse
 }
 
 If audio doesn't work {
