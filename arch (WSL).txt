@@ -1,0 +1,17 @@
+# https://wiki.archlinux.org/title/Install_Arch_Linux_on_WSL
+wsl --update
+wsl --install archlinux
+
+# Setup a non-root user
+  useradd -m <username>
+  usermod -aG wheel,tty,uucp <username>
+  pacman -Sy
+  pacman -S sudo nano which
+  passwd
+    Type your password for root
+  passwd <username>
+    Type your password for <username>
+  [Ctrl+D]
+wsl --manage archlinux --set-default-user <username>
+wsl --set-default archlinux
+wsl
