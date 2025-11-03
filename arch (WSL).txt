@@ -7,6 +7,9 @@ wsl --install archlinux
   usermod -aG wheel,tty,uucp <username>
   pacman -Sy
   pacman -S sudo nano which
+  EDITOR=nano visudo
+    Uncomment or add %wheel ALL=(ALL:ALL) ALL
+    [Ctrl+S] [Ctrl+X]
   passwd
     Type your password for root
   passwd <username>
@@ -15,3 +18,4 @@ wsl --install archlinux
 wsl --manage archlinux --set-default-user <username>
 wsl --set-default archlinux
 wsl
+  sudo pacman -Syu
