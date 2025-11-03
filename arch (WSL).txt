@@ -19,3 +19,6 @@ wsl --manage archlinux --set-default-user <username>
 wsl --set-default archlinux
 wsl
   sudo pacman -Syu
+
+# https://github.com/microsoft/WSL/issues/13186
+If you get `Failed to start the systemd user session`, you may need to downgrade to WSL 2.5.x
