@@ -22,3 +22,13 @@ wsl
 
 # https://github.com/microsoft/WSL/issues/13186
 If you get `Failed to start the systemd user session`, you may need to downgrade to WSL 2.5.x
+
+# For AUR packages (Do NOT install base-devel directly!!)
+pacman -S git debugedit fakeroot make patch
+cd ~
+git clone https://aur.archlinux.org/yay.git
+  cd yay
+  makepkg -sic
+  cd ..
+  rm -rf yay
+
